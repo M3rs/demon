@@ -116,6 +116,12 @@ int main() {
 
   sf::RenderWindow window(sf::VideoMode(800, 600), "StarCraft!");
 
+  sf::Texture factoryTexture;
+  if (!factoryTexture.loadFromFile("Factory.png")) {
+    std::cout << "Could not load Factory.png?!\n";
+  }
+  auto factorySprite = sf::Sprite(factoryTexture);
+
   int minerals = 1000;
 
   std::cout << "Please press the number of the unit you want to build."
@@ -178,6 +184,7 @@ int main() {
     studioSystem->update();
 
     window.clear();
+    window.draw(factorySprite);
     window.display();
   }
 
