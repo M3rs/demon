@@ -5,10 +5,10 @@
 
 class OneShot {
 public:
-  OneShot(const FMOD::Studio::EventDescription *desciption);
+  OneShot(const FMOD::Studio::EventDescription *description);
   ~OneShot();
 
-  static void Play(const FMOD::Studio::EventDescription *desciption);
+  static void Play(const FMOD::Studio::EventDescription *description);
 
 private:
   FMOD::Studio::EventInstance* m_instance; 

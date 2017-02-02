@@ -1,8 +1,8 @@
 #include "oneshot.hpp"
 
-OneShot::OneShot(const FMOD::Studio::EventDescription *desciption)
+OneShot::OneShot(const FMOD::Studio::EventDescription *description)
     : m_instance(nullptr) {
-  desciption->createInstance(&m_instance);
+  description->createInstance(&m_instance);
   m_instance->start();
 }
 OneShot::~OneShot() {

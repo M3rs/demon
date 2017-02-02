@@ -10,6 +10,10 @@ FMOD::Studio::System *studioSystem = NULL;
 FMOD::System *lowLevelSystem = NULL;
 std::string mediaPath = "media";
 
+FMOD::Studio::Bank *masterBank = NULL;
+FMOD::Studio::Bank *stringsBank = NULL;
+FMOD::Studio::Bank *starcraftBank = NULL;
+
 FMOD::Studio::EventDescription *evtGhost;
 FMOD::Studio::EventDescription *evtThor;
 FMOD::Studio::EventDescription *evtSiegeTank;
@@ -22,21 +26,21 @@ int initialize() {
     std::cout << "Error: Failed to create FMOD studio system instance."
               << std::endl;
     std::cin.get();
-    return 0;
+    return 1;
   }
 
   result = studioSystem->getLowLevelSystem(&lowLevelSystem);
   if (result != FMOD_OK) {
     std::cout << "Error: Could not get low level system." << std::endl;
     std::cin.get();
-    return 0;
+    return 1;
   }
 
   result = lowLevelSystem->setSoftwareFormat(0, FMOD_SPEAKERMODE_STEREO, 0);
   if (result != FMOD_OK) {
     std::cout << "Error: Problem setting software format." << std::endl;
     std::cin.get();
-    return 0;
+    return 1;
   }
 
   result = studioSystem->initialize(32, FMOD_STUDIO_INIT_NORMAL,
@@ -46,50 +50,47 @@ int initialize() {
                  "not be completed."
               << std::endl;
     std::cin.get();
-    return 0;
+    return 1;
   }
-
-  FMOD::Studio::Bank *masterBank = NULL;
+  
   result = studioSystem->loadBankFile(
       "Master Bank.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
   if (result != FMOD_OK) {
     std::cout << "Error: Master Bank file could not be located or loaded."
               << std::endl;
     std::cin.get();
-    return 0;
+    return 1;
   }
 
-  FMOD::Studio::Bank *stringsBank = NULL;
   result = studioSystem->loadBankFile(
       "Master Bank.strings.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &stringsBank);
   if (result != FMOD_OK) {
     std::cout << "Error: Strings Bank file could not be located or loaded."
               << std::endl;
     std::cin.get();
-    return 0;
+    return 1;
   }
-
-  FMOD::Studio::Bank *starcraftBank = NULL;
+ 
   result = studioSystem->loadBankFile(
       "starcraft.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &starcraftBank);
   if (result != FMOD_OK) {
-    std::cout << "Error: Starcraft bank could not be loaded." << std::endl;
+    std::cout << "Error: Starcraft bank could not be located or loaded." << std::endl;
     std::cin.get();
-    return 0;
+    return 1;
   }
 
   result = studioSystem->getEvent("event:/ghost", &evtGhost);
   if (result != FMOD_OK) {
     std::cout << "Error: Could not retrieve Ghost FMOD event." << std::endl;
     std::cin.get();
-    return 0;
+    return 1;
   }
 
   result = studioSystem->getEvent("event:/thor", &evtThor);
   if (result != FMOD_OK) {
     std::cout << "Error: Could not retrieve Thor FMOD event." << std::endl;
     std::cin.get();
-    return 0;
+    return 1;
   }
 
   result = studioSystem->getEvent("event:/siegetank", &evtSiegeTank);
@@ -97,7 +98,7 @@ int initialize() {
     std::cout << "Error: Could not retrieve Siege Tank FMOD event."
               << std::endl;
     std::cin.get();
-    return 0;
+    return 1;
   }
 
   result = studioSystem->getEvent("event:/mineralerror", &evtMineralError);
@@ -105,14 +106,33 @@ int initialize() {
     std::cout << "Error: Could not retrieve MineralErrorFMOD event."
               << std::endl;
     std::cin.get();
-    return 0;
+    return 1;
   }
 
   return 0;
 }
 
+void cleanup()
+{
+	if (starcraftBank != NULL)
+		starcraftBank->unload();
+	if (stringsBank != NULL)
+		stringsBank->unload();
+	if (masterBank != NULL)
+		masterBank->unload();
+
+	//lowLevelSystem->release(); //releasing Studio seems to also release the low level system
+	if (studioSystem != NULL)
+		studioSystem->release();
+}
+
 int main() {
-  initialize();
+	if (initialize() != 0) //init returned with error code
+	{
+		cleanup();
+		return 0;
+	}
+		
 
   sf::RenderWindow window(sf::VideoMode(800, 600), "StarCraft!");
 
@@ -188,5 +208,6 @@ int main() {
     window.display();
   }
 
+  cleanup();
   return 0;
 }
