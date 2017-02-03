@@ -8,6 +8,8 @@
 int main() {
 
   AudioEngine m_audioEngine;
+
+  //TODO: if audio init error, use null implementation
   m_audioEngine.initialize();
 
   sf::RenderWindow window(sf::VideoMode(800, 600), "StarCraft!");

@@ -14,10 +14,10 @@ public:
 
 	bool initialize();
 
-	void loadBank(const std::string& path);	//will make more sophisticated
-												//bank loading behavior later
+	bool loadBank(const std::string& path);
 
-	void unloadBank(const std::string& path);
+	//TODO: do something with return value
+	bool unloadBank(const std::string& path); 
 
 	void playOneShot(const std::string& path) const;
 
@@ -29,8 +29,6 @@ private:
 	FMOD::Studio::Bank*		masterBank;
 	FMOD::Studio::Bank*		stringsBank;
 	FMOD::Studio::Bank*		starcraftBank;
-
-	std::map<std::string, FMOD::Studio::Bank*>	bankList;
 
 	FMOD_RESULT				result;
 

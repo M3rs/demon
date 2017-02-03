@@ -8,14 +8,11 @@ AudioEngine::AudioEngine()
 	starcraftBank(nullptr), stringsBank(nullptr), masterBank(nullptr) {}
 
 AudioEngine::~AudioEngine() {
-  if (starcraftBank != NULL)
-    starcraftBank->unload();
-  if (stringsBank != NULL)
-    stringsBank->unload();
-  if (masterBank != NULL)
-    masterBank->unload();
-  // lowLevelSystem->release(); //releasing Studio seems to also release the low
-  // level system
+	unloadBank("player.bank");
+	unloadBank("starcraft.bank");
+	unloadBank("Master bank.strings.bank");
+	unloadBank("Master bank.bank");
+	
   if (m_studioSystem != NULL)
     m_studioSystem->release();
 }
@@ -54,32 +51,17 @@ bool AudioEngine::initialize()
 		return false;
 	}
 
-	result = m_studioSystem->loadBankFile(
-		"Master Bank.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
-	if (result != FMOD_OK) {
-		std::cout << "Error: Master Bank file could not be located or loaded."
-			<< std::endl;
-		std::cin.get();
+	if (!(loadBank("Master bank.bank")))
 		return false;
-	}
 
-	result = m_studioSystem->loadBankFile(
-		"Master Bank.strings.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &stringsBank);
-	if (result != FMOD_OK) {
-		std::cout << "Error: Strings Bank file could not be located or loaded."
-			<< std::endl;
-		std::cin.get();
+	if (!(loadBank("Master bank.strings.bank")))
 		return false;
-	}
 
-	result = m_studioSystem->loadBankFile(
-		"starcraft.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &starcraftBank);
-	if (result != FMOD_OK) {
-		std::cout << "Error: Starcraft bank could not be located or loaded."
-			<< std::endl;
-		std::cin.get();
+	if (!(loadBank("starcraft.bank")))
 		return false;
-	}
+
+	if (!(loadBank("player.bank")))
+		return false;
 
 	return true;
 }
@@ -99,24 +81,34 @@ void AudioEngine::playOneShot(const std::string &eventPath) const {
 
 void AudioEngine::update() { m_studioSystem->update(); }
 
-void AudioEngine::loadBank(const std::string& path) {
+bool AudioEngine::loadBank(const std::string& path) {
 	FMOD::Studio::Bank* bank(nullptr);
 	result = m_studioSystem->loadBankFile(path.c_str(), 
 		FMOD_STUDIO_LOAD_BANK_NORMAL, &bank);
 	if (result != FMOD_OK) {
 		std::cout << "Error loading bank path: '" << path << "'"
 			<< std::endl;
+		return false;
 	}
-	else
-		bankList.emplace(path, bank);
+	return true;
 }
 
-void AudioEngine::unloadBank(const std::string& path) {
+bool AudioEngine::unloadBank(const std::string& path) {
 	FMOD::Studio::Bank* bank(nullptr);
 	result = m_studioSystem->getBank(path.c_str(), &bank);
 	if (result != FMOD_OK) {
-		std::cout << "Could not unload bank path: '" << path << "'"
-			<< std::endl;
+		std::cout << "Could not get bank path for unload: '" << path << "'"
+			<< " - this bank may already be unloaded." << std::endl;
+		return false;
 	}
-	else { bankList.erase(path); }
+	
+	else { 
+		result = bank->unload();
+		if (result != FMOD_OK) {
+			std::cout << "Could not unload bank path: '" << path << "'"
+				<< std::endl;
+			return false;
+		}	
+	}
+	return true;
 }

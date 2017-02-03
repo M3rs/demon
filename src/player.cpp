@@ -14,6 +14,7 @@ void Player::handle_event(const sf::Event &event) {
       m_isJumping = true;
       m_sprite.setTextureRect(sf::IntRect(48, 110, 30, 58));
       m_force = sf::Vector2f(0, -14);
+	  m_audio.playOneShot("event:/player/jump");
       break;
     default: break;
     }
@@ -32,9 +33,10 @@ void Player::update() {
     m_force.y += 1;
     m_sprite.move(sf::Vector2f(0, 3));
   }
-  if (m_sprite.getPosition().y >= 400) {
+  if (m_sprite.getPosition().y >= 400 && m_isJumping) {
     m_isJumping = false;
     m_sprite.setTextureRect(sf::IntRect(0, 32, 32, 50));
+	m_audio.playOneShot("event:/player/land");
   }
 }
 
