@@ -12,6 +12,7 @@ void Player::handle_event(const sf::Event &event) {
     switch (event.key.code) {
     case sf::Keyboard::Space:
       m_isJumping = true;
+      m_sprite.setTextureRect(sf::IntRect(48, 110, 30, 58));
       m_force = sf::Vector2f(0, -14);
       break;
     default: break;
@@ -33,6 +34,7 @@ void Player::update() {
   }
   if (m_sprite.getPosition().y >= 400) {
     m_isJumping = false;
+    m_sprite.setTextureRect(sf::IntRect(0, 32, 32, 50));
   }
 }
 
