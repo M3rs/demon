@@ -8,12 +8,16 @@ int main() {
   AudioEngine m_audioEngine;
 
   sf::RenderWindow window(sf::VideoMode(800, 600), "StarCraft!");
+  window.setFramerateLimit(60);
 
-  sf::Texture factoryTexture;
-  if (!factoryTexture.loadFromFile("Factory.png")) {
-    std::cout << "Could not load Factory.png?!\n";
+  sf::Texture gargTexture;
+  if (!gargTexture.loadFromFile("garg.gif")) {
+    std::cout << "Could not load garg.gif?!\n";
   }
-  auto factorySprite = sf::Sprite(factoryTexture);
+  sf::Sprite playerSprite(gargTexture);
+  playerSprite.setTextureRect(sf::IntRect(0, 32, 32, 50));
+
+  int speed = 2;
 
   int minerals = 1000;
 
@@ -26,6 +30,8 @@ int main() {
 
   while (window.isOpen()) {
     int input = 0;
+
+    // handle input
     sf::Event event;
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) {
@@ -51,6 +57,19 @@ int main() {
       }
     }
 
+    // update
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+      playerSprite.move(speed * -1, 0);
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+      playerSprite.move(speed, 0);
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+      playerSprite.move(0, speed * -1);
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+      playerSprite.move(0, speed);
+    }
+    
     if (input == 1) {
       if (minerals >= 200) {
         m_audioEngine.playOneShot("event:/ghost");
@@ -78,8 +97,9 @@ int main() {
 
     m_audioEngine.update();
 
+    // render
     window.clear();
-    window.draw(factorySprite);
+    window.draw(playerSprite);
     window.display();
   }
 

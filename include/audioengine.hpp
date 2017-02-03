@@ -3,6 +3,8 @@
 
 #include "fmod_studio.hpp"
 
+#include <string>
+
 class AudioEngine {
 public:
 	AudioEngine();
