@@ -1,6 +1,6 @@
 #include "player.hpp"
 
-Player::Player(const sf::Texture &texture, const AudioEngine &audio)
+Player::Player(const sf::Texture &texture, AudioEngine &audio)
     : m_sprite(texture), m_audio(audio), m_speed(2), m_isJumping(false) {
 
   m_sprite.setTextureRect(sf::IntRect(0, 32, 32, 50));
@@ -12,7 +12,7 @@ void Player::handle_event(const sf::Event &event) {
     switch (event.key.code) {
     case sf::Keyboard::Space:
       m_isJumping = true;
-      m_force = sf::Vector2f(0, -10);
+      m_force = sf::Vector2f(0, -14);
       break;
     default: break;
     }
