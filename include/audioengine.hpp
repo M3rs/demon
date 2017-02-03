@@ -11,6 +11,8 @@ public:
 	AudioEngine();
 	~AudioEngine();
 
+	bool initialize();
+
 	//void loadBank(const std::string& path);	//will make more sophisticated
 												//bank loading behavior later
 

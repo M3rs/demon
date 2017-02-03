@@ -6,6 +6,7 @@
 int main() {
 
   AudioEngine m_audioEngine;
+  m_audioEngine.initialize();
 
   sf::RenderWindow window(sf::VideoMode(800, 600), "StarCraft!");
   window.setFramerateLimit(60);
