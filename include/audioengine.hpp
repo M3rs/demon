@@ -3,6 +3,7 @@
 
 #include "fmod_studio.hpp"
 #include <iostream>
+#include <map>
 
 #include <string>
 
@@ -13,10 +14,10 @@ public:
 
 	bool initialize();
 
-	//void loadBank(const std::string& path);	//will make more sophisticated
+	void loadBank(const std::string& path);	//will make more sophisticated
 												//bank loading behavior later
 
-	//void unloadBank(const std::string& path);
+	void unloadBank(const std::string& path);
 
 	void playOneShot(const std::string& path) const;
 
@@ -28,6 +29,8 @@ private:
 	FMOD::Studio::Bank*		masterBank;
 	FMOD::Studio::Bank*		stringsBank;
 	FMOD::Studio::Bank*		starcraftBank;
+
+	std::map<std::string, FMOD::Studio::Bank*>	bankList;
 
 	FMOD_RESULT				result;
 

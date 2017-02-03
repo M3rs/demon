@@ -98,3 +98,25 @@ void AudioEngine::playOneShot(const std::string &eventPath) const {
 }
 
 void AudioEngine::update() { m_studioSystem->update(); }
+
+void AudioEngine::loadBank(const std::string& path) {
+	FMOD::Studio::Bank* bank(nullptr);
+	result = m_studioSystem->loadBankFile(path.c_str(), 
+		FMOD_STUDIO_LOAD_BANK_NORMAL, &bank);
+	if (result != FMOD_OK) {
+		std::cout << "Error loading bank path: '" << path << "'"
+			<< std::endl;
+	}
+	else
+		bankList.emplace(path, bank);
+}
+
+void AudioEngine::unloadBank(const std::string& path) {
+	FMOD::Studio::Bank* bank(nullptr);
+	result = m_studioSystem->getBank(path.c_str(), &bank);
+	if (result != FMOD_OK) {
+		std::cout << "Could not unload bank path: '" << path << "'"
+			<< std::endl;
+	}
+	else { bankList.erase(path); }
+}

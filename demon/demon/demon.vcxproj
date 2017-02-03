@@ -161,6 +161,7 @@
     <ClCompile Include="..\..\src\audioengine.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\oneshot.cpp" />
+    <ClCompile Include="..\..\src\player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\audioengine.hpp" />

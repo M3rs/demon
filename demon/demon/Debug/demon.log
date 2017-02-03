@@ -1,21 +1,20 @@
-﻿Build started 2/2/2017 9:06:56 PM.
+﻿Build started 2/3/2017 3:17:44 PM.
      1>Project "C:\Users\Kio\Documents\GitHub\demon\demon\demon\demon.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D SFML_STATIC /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\audioengine.cpp ..\..\src\main.cpp
-         main.cpp
-     1>c:\users\kio\documents\github\demon\src\main.cpp(63): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-     1>c:\users\kio\documents\github\demon\src\main.cpp(65): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-     1>c:\users\kio\documents\github\demon\src\main.cpp(69): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-     1>c:\users\kio\documents\github\demon\src\main.cpp(71): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D SFML_STATIC /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\audioengine.cpp ..\..\src\main.cpp ..\..\src\player.cpp
          audioengine.cpp
          Generating Code...
+         Skipping... (no relevant changes detected)
+         player.cpp
+         main.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Kio\Documents\GitHub\demon\demon\Debug\demon.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib fmod_vc.lib fmodL_vc.lib fmodstudio_vc.lib fmodstudioL_vc.lib "sfml-system-s-d.lib" "sfml-window-s-d.lib" "sfml-graphics-s-d.lib" opengl32.lib winmm.lib gdi32.lib freetype.lib jpeg.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Kio\Documents\GitHub\demon\demon\Debug\demon.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Kio\Documents\GitHub\demon\demon\Debug\demon.lib" /MACHINE:X86 Debug\audioengine.obj
          Debug\main.obj
          Debug\oneshot.obj
+         Debug\player.obj
          demon.vcxproj -> C:\Users\Kio\Documents\GitHub\demon\demon\Debug\demon.exe
      1>Done Building Project "C:\Users\Kio\Documents\GitHub\demon\demon\demon\demon.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.28
+Time Elapsed 00:00:01.35
