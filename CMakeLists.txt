@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -rpath ./lib")
-endif()
+set(CMAKE_CXX_STANDARD 11)
 
 project(demon)
 
