@@ -5,22 +5,6 @@
 #include "fmod.hpp"
 #include "audioengine.hpp"
 
-	
-
-FMOD_RESULT result;
-FMOD::Studio::System *studioSystem = NULL;
-FMOD::System *lowLevelSystem = NULL;
-std::string mediaPath = "media";
-
-FMOD::Studio::Bank *masterBank = NULL;
-FMOD::Studio::Bank *stringsBank = NULL;
-FMOD::Studio::Bank *starcraftBank = NULL;
-
-FMOD::Studio::EventDescription *evtGhost;
-FMOD::Studio::EventDescription *evtThor;
-FMOD::Studio::EventDescription *evtSiegeTank;
-FMOD::Studio::EventDescription *evtMineralError;
-
 int main() {		
 
   AudioEngine m_audioEngine;
