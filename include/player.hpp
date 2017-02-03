@@ -9,7 +9,7 @@ class Player {
 public:
   Player(const sf::Texture& texture, const AudioEngine& audio);
 
-  void hande_event(const sf::Event& event);
+  void handle_event(const sf::Event& event);
   void update();
 
   const sf::Sprite& sprite() const;
@@ -18,7 +18,7 @@ private:
 
   sf::Sprite m_sprite;
   bool m_isJumping;
-  sf::Vector2i force;
+  sf::Vector2f m_force;
 
   int m_speed;
   
