@@ -2,6 +2,7 @@
 #define AUDIOENGINE_HPP
 
 #include "fmod_studio.hpp"
+#include <iostream>
 
 #include <string>
 
