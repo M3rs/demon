@@ -3,6 +3,8 @@
 #include "audioengine.hpp"
 #include <SFML/Graphics.hpp>
 
+#include "player.hpp"
+
 int main() {
 
   AudioEngine m_audioEngine;
@@ -15,10 +17,9 @@ int main() {
   if (!gargTexture.loadFromFile("garg.gif")) {
     std::cout << "Could not load garg.gif?!\n";
   }
-  sf::Sprite playerSprite(gargTexture);
-  playerSprite.setTextureRect(sf::IntRect(0, 32, 32, 50));
-
-  int speed = 2;
+  sf::Color background(17, 13, 42); // 17 13 42 is the background in the gif
+ 
+  Player player(gargTexture, m_audioEngine);
 
   int minerals = 1000;
 
@@ -55,21 +56,13 @@ int main() {
         default:
           break;
         }
+
+	player.handle_event(event);
       }
     }
 
     // update
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-      playerSprite.move(speed * -1, 0);
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-      playerSprite.move(speed, 0);
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-      playerSprite.move(0, speed * -1);
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-      playerSprite.move(0, speed);
-    }
+    player.update();
     
     if (input == 1) {
       if (minerals >= 200) {
@@ -99,8 +92,9 @@ int main() {
     m_audioEngine.update();
 
     // render
-    window.clear();
-    window.draw(playerSprite);
+    window.clear(background);
+    //window.draw(playerSprite);
+    window.draw(player.sprite());
     window.display();
   }
 
