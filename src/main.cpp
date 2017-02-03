@@ -2,8 +2,10 @@
 
 #include "fmod_studio.hpp"
 #include <SFML/Graphics.hpp>
+#include "fmod.hpp"
+#include "audioengine.hpp"
 
-#include "oneshot.hpp"
+	
 
 FMOD_RESULT result;
 FMOD::Studio::System *studioSystem = NULL;
@@ -18,121 +20,10 @@ FMOD::Studio::EventDescription *evtGhost;
 FMOD::Studio::EventDescription *evtThor;
 FMOD::Studio::EventDescription *evtSiegeTank;
 FMOD::Studio::EventDescription *evtMineralError;
-// FMOD::Studio::EventInstance*	instVoidRay;
 
-int initialize() {
-  result = FMOD::Studio::System::create(&studioSystem);
-  if (result != FMOD_OK) {
-    std::cout << "Error: Failed to create FMOD studio system instance."
-              << std::endl;
-    std::cin.get();
-    return 1;
-  }
+int main() {		
 
-  result = studioSystem->getLowLevelSystem(&lowLevelSystem);
-  if (result != FMOD_OK) {
-    std::cout << "Error: Could not get low level system." << std::endl;
-    std::cin.get();
-    return 1;
-  }
-
-  result = lowLevelSystem->setSoftwareFormat(0, FMOD_SPEAKERMODE_STEREO, 0);
-  if (result != FMOD_OK) {
-    std::cout << "Error: Problem setting software format." << std::endl;
-    std::cin.get();
-    return 1;
-  }
-
-  result = studioSystem->initialize(32, FMOD_STUDIO_INIT_NORMAL,
-                                    FMOD_INIT_NORMAL, 0);
-  if (result != FMOD_OK) {
-    std::cout << "Error: Initialization of FMOD studio system instance could "
-                 "not be completed."
-              << std::endl;
-    std::cin.get();
-    return 1;
-  }
-  
-  result = studioSystem->loadBankFile(
-      "Master Bank.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
-  if (result != FMOD_OK) {
-    std::cout << "Error: Master Bank file could not be located or loaded."
-              << std::endl;
-    std::cin.get();
-    return 1;
-  }
-
-  result = studioSystem->loadBankFile(
-      "Master Bank.strings.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &stringsBank);
-  if (result != FMOD_OK) {
-    std::cout << "Error: Strings Bank file could not be located or loaded."
-              << std::endl;
-    std::cin.get();
-    return 1;
-  }
- 
-  result = studioSystem->loadBankFile(
-      "starcraft.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &starcraftBank);
-  if (result != FMOD_OK) {
-    std::cout << "Error: Starcraft bank could not be located or loaded." << std::endl;
-    std::cin.get();
-    return 1;
-  }
-
-  result = studioSystem->getEvent("event:/ghost", &evtGhost);
-  if (result != FMOD_OK) {
-    std::cout << "Error: Could not retrieve Ghost FMOD event." << std::endl;
-    std::cin.get();
-    return 1;
-  }
-
-  result = studioSystem->getEvent("event:/thor", &evtThor);
-  if (result != FMOD_OK) {
-    std::cout << "Error: Could not retrieve Thor FMOD event." << std::endl;
-    std::cin.get();
-    return 1;
-  }
-
-  result = studioSystem->getEvent("event:/siegetank", &evtSiegeTank);
-  if (result != FMOD_OK) {
-    std::cout << "Error: Could not retrieve Siege Tank FMOD event."
-              << std::endl;
-    std::cin.get();
-    return 1;
-  }
-
-  result = studioSystem->getEvent("event:/mineralerror", &evtMineralError);
-  if (result != FMOD_OK) {
-    std::cout << "Error: Could not retrieve MineralErrorFMOD event."
-              << std::endl;
-    std::cin.get();
-    return 1;
-  }
-
-  return 0;
-}
-
-void cleanup()
-{
-	if (starcraftBank != NULL)
-		starcraftBank->unload();
-	if (stringsBank != NULL)
-		stringsBank->unload();
-	if (masterBank != NULL)
-		masterBank->unload();
-
-	//lowLevelSystem->release(); //releasing Studio seems to also release the low level system
-	if (studioSystem != NULL)
-		studioSystem->release();
-}
-
-int main() {
-	if (initialize() != 0) //init returned with error code
-	{
-		cleanup();
-		return 0;
-	}
-		
+  AudioEngine m_audioEngine;
 
   sf::RenderWindow window(sf::VideoMode(800, 600), "StarCraft!");
 
@@ -178,36 +69,35 @@ int main() {
 
     if (input == 1) {
       if (minerals >= 200) {
-        OneShot::Play(evtGhost);
+        m_audioEngine.playOneShot("event:/ghost");
         minerals -= 200;
       } else {
-        OneShot::Play(evtMineralError);
+        m_audioEngine.playOneShot("event:/mineralerror");
       }
     }
     if (input == 2) {
       if (minerals >= 400) {
-        OneShot::Play(evtThor);
+		  m_audioEngine.playOneShot("event:/thor");
         minerals -= 400;
       } else {
-        OneShot::Play(evtMineralError);
+		  m_audioEngine.playOneShot("event:/mineralerror");
       }
     }
     if (input == 3) {
       if (minerals >= 150) {
-        OneShot::Play(evtSiegeTank);
+		  m_audioEngine.playOneShot("event:/siegetank");
         minerals -= 150;
       } else {
-        OneShot::Play(evtMineralError);
+		  m_audioEngine.playOneShot("event:/mineralerror");
       }
     }
 
-    studioSystem->update();
+    m_audioEngine.update();
 
     window.clear();
     window.draw(factorySprite);
     window.display();
   }
 
-  cleanup();
   return 0;
 }

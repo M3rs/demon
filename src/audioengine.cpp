@@ -35,17 +35,32 @@ AudioEngine::AudioEngine()
 			<< std::endl;
 		std::cin.get();
 	}
+
+	result = m_studioSystem->loadBankFile(
+		"Master Bank.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
+	if (result != FMOD_OK) {
+		std::cout << "Error: Master Bank file could not be located or loaded."
+			<< std::endl;
+		std::cin.get();
+	}
+
+	result = m_studioSystem->loadBankFile(
+		"Master Bank.strings.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &stringsBank);
+	if (result != FMOD_OK) {
+		std::cout << "Error: Strings Bank file could not be located or loaded."
+			<< std::endl;
+		std::cin.get();
+	}
+
+	result = m_studioSystem->loadBankFile(
+		"starcraft.bank", FMOD_STUDIO_LOAD_BANK_NORMAL, &starcraftBank);
+	if (result != FMOD_OK) {
+		std::cout << "Error: Starcraft bank could not be located or loaded." << std::endl;
+		std::cin.get();
+	}
 }
 
 AudioEngine::~AudioEngine()
-{
-	//lowLevelSystem->release(); //releasing Studio seems to also release the low level system
-	if (m_studioSystem != NULL)
-		m_studioSystem->release();
-	unloadAllBanks();
-}
-
-void unloadAllBanks()
 {
 	if (starcraftBank != NULL)
 		starcraftBank->unload();
@@ -53,6 +68,23 @@ void unloadAllBanks()
 		stringsBank->unload();
 	if (masterBank != NULL)
 		masterBank->unload();
+	//lowLevelSystem->release(); //releasing Studio seems to also release the low level system
+	if (m_studioSystem != NULL)
+		m_studioSystem->release();
 }
+
+void AudioEngine::playOneShot(const std::string& eventPath)
+{
+	FMOD::Studio::EventDescription* evtDesc(nullptr);
+	m_studioSystem->getEvent(eventPath.c_str(), &evtDesc);
+	OneShot::Play(evtDesc);
+}
+
+void AudioEngine::update()
+{
+	m_studioSystem->update();
+}
+
+
 
 

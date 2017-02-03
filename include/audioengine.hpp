@@ -2,21 +2,22 @@
 #define AUDIOENGINE_HPP
 
 #include "fmod_studio.hpp"
+#include "oneshot.hpp"
+#include <iostream>
 
 class AudioEngine {
 public:
 	AudioEngine();
 	~AudioEngine();
 
-	void loadBank(string path);
+	//void loadBank(const std::string& path);	//will make more sophisticated
+												//bank loading behavior later
 
-	void loadAllBanks();
+	//void unloadBank(const std::string& path);
 
-	void unloadBank(string path);
+	void playOneShot(const std::string& path);
 
-	void unloadAllBanks();
-
-
+	void update();
 
 private:
 	FMOD::Studio::System*	m_studioSystem;
