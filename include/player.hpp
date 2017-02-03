@@ -7,7 +7,7 @@
 
 class Player {
 public:
-  Player(const sf::Texture& texture, AudioEngine& audio);
+  Player(const sf::Texture& texture, const AudioEngine& audio);
 
   void handle_event(const sf::Event& event);
   void update();
@@ -22,7 +22,7 @@ private:
 
   int m_speed;
   
-  AudioEngine& m_audio;
+  const AudioEngine& m_audio;
 };
 
 #endif // PLAYER_HPP

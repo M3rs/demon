@@ -1,6 +1,6 @@
 #include "player.hpp"
 
-Player::Player(const sf::Texture &texture, AudioEngine &audio)
+Player::Player(const sf::Texture &texture, const AudioEngine &audio)
     : m_sprite(texture), m_audio(audio), m_speed(2), m_isJumping(false) {
 
   m_sprite.setTextureRect(sf::IntRect(0, 32, 32, 50));

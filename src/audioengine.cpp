@@ -84,7 +84,7 @@ bool AudioEngine::initialize()
 	return true;
 }
 
-void AudioEngine::playOneShot(const std::string &eventPath) {
+void AudioEngine::playOneShot(const std::string &eventPath) const {
 	FMOD_RESULT result;
   FMOD::Studio::EventDescription *evtDesc(nullptr);
   result = m_studioSystem->getEvent(eventPath.c_str(), &evtDesc);

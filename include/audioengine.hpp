@@ -18,7 +18,7 @@ public:
 
 	//void unloadBank(const std::string& path);
 
-	void playOneShot(const std::string& path);
+	void playOneShot(const std::string& path) const;
 
 	void update();
 
