@@ -1,11 +1,9 @@
 #include <iostream>
 
-#include "fmod_studio.hpp"
-#include <SFML/Graphics.hpp>
-#include "fmod.hpp"
 #include "audioengine.hpp"
+#include <SFML/Graphics.hpp>
 
-int main() {		
+int main() {
 
   AudioEngine m_audioEngine;
 
@@ -47,6 +45,8 @@ int main() {
         case sf::Keyboard::Num4:
           window.close();
           break;
+        default:
+          break;
         }
       }
     }
@@ -61,18 +61,18 @@ int main() {
     }
     if (input == 2) {
       if (minerals >= 400) {
-		  m_audioEngine.playOneShot("event:/thor");
+        m_audioEngine.playOneShot("event:/thor");
         minerals -= 400;
       } else {
-		  m_audioEngine.playOneShot("event:/mineralerror");
+        m_audioEngine.playOneShot("event:/mineralerror");
       }
     }
     if (input == 3) {
       if (minerals >= 150) {
-		  m_audioEngine.playOneShot("event:/siegetank");
+        m_audioEngine.playOneShot("event:/siegetank");
         minerals -= 150;
       } else {
-		  m_audioEngine.playOneShot("event:/mineralerror");
+        m_audioEngine.playOneShot("event:/mineralerror");
       }
     }
 
