@@ -1,13 +1,14 @@
 cmake_minimum_required(VERSION 3.1)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
 project(demon)
 
 set(FMOD_LIBS fmod fmodstudio)
 set(SFML_LIBS sfml-graphics sfml-window sfml-system)
+set(LUA_LIBS lua)
 
-include_directories("include", "include/FMOD")
+include_directories("include", "include/FMOD", "include/Lua")
 
 link_directories("lib")
 
@@ -15,4 +16,4 @@ file (GLOB SOURCES "src/*.cpp")
 
 add_executable(demon ${SOURCES})
 
-target_link_libraries(demon ${FMOD_LIBS} ${SFML_LIBS})
+target_link_libraries(demon ${FMOD_LIBS} ${SFML_LIBS} ${LUA_LIBS})

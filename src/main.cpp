@@ -2,17 +2,28 @@
 
 #include "audioengine.hpp"
 #include <SFML/Graphics.hpp>
+#include <sol.hpp>
 
 #include "player.hpp"
 
 int main() {
 
+  // load lua
+  sol::state lua;
+  lua.open_libraries(sol::lib::base, sol::lib::package);
+  lua.script_file("settings.lua");
+  
+  
   AudioEngine m_audioEngine;
 
   //TODO: if audio init error, use null implementation
   m_audioEngine.initialize();
 
-  sf::RenderWindow window(sf::VideoMode(800, 600), "StarCraft!");
+  std::string title = lua["window"]["title"];
+  int winWidth = lua["window"]["width"];
+  int winHeight = lua["window"]["height"];
+  
+  sf::RenderWindow window(sf::VideoMode(winWidth, winHeight), title);
   window.setFramerateLimit(60);
 
   sf::Texture gargTexture;
