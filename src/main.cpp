@@ -19,6 +19,10 @@ int main() {
   //TODO: if audio init error, use null implementation
   m_audioEngine.initialize();
 
+  // register
+  lua["fmod"] = &m_audioEngine;
+  lua["playOneShot"] = &AudioEngine::playOneShot;
+
   std::string title = lua["window"]["title"];
   int winWidth = lua["window"]["width"];
   int winHeight = lua["window"]["height"];
@@ -32,7 +36,7 @@ int main() {
   }
   sf::Color background(17, 13, 42); // 17 13 42 is the background in the gif
  
-  Player player(gargTexture, m_audioEngine);
+  Player player(gargTexture, m_audioEngine, lua);
 
   int minerals = 1000;
 
