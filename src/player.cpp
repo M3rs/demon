@@ -8,8 +8,16 @@ Player::Player(const sf::Texture &texture, const AudioEngine &audio,
   m_sprite.setTextureRect(sf::IntRect(0, 32, 32, 50));
   m_sprite.setPosition(300, 400);
 
+  setup_lua();
+}
+
+void Player::setup_lua() {
   m_lua.script_file("player.lua");
-  updater = m_lua["pUpdate"];
+  onJump = m_lua["player"]["normal"]["onJump"];
+  onLand = m_lua["player"]["normal"]["onLand"];
+
+  sol::table player_t = m_lua["player"];
+  player_t.set_function("set_texture_rect", &Player::set_texture, this);
 }
 
 void Player::handle_event(const sf::Event &event) {
@@ -17,16 +25,13 @@ void Player::handle_event(const sf::Event &event) {
     switch (event.key.code) {
     case sf::Keyboard::Space:
       m_isJumping = true;
-      m_sprite.setTextureRect(sf::IntRect(48, 110, 30, 58));
       m_force = sf::Vector2f(0, -14);
-      // m_audio.playOneShot("event:/player/jump");
-      updater();
+      onJump();
       break;
     case sf::Keyboard::R:
       // reload player script
       std::cout << "Reloading player.lua\n";
-      m_lua.script_file("player.lua");
-      updater = m_lua["pUpdate"];
+      setup_lua();
 
       break;
     default:
@@ -49,9 +54,12 @@ void Player::update() {
   }
   if (m_sprite.getPosition().y >= 400 && m_isJumping) {
     m_isJumping = false;
-    m_sprite.setTextureRect(sf::IntRect(0, 32, 32, 50));
-    m_audio.playOneShot("event:/player/land");
+    onLand();
   }
 }
 
 const sf::Sprite &Player::sprite() const { return m_sprite; }
+
+void Player::set_texture(int x, int y, int w, int h) {
+  m_sprite.setTextureRect(sf::IntRect(x, y, w, h));
+}

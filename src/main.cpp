@@ -21,8 +21,10 @@ int main() {
   m_audioEngine.initialize();
 
   // register
-  lua["fmod"] = &m_audioEngine;
-  lua["playOneShot"] = &AudioEngine::playOneShot;
+  sol::table fmod = lua.create_table("fmod");
+  fmod.set_function("playOneShot",  // function name
+		    &AudioEngine::playOneShot, // class function address
+		    &m_audioEngine); // instance of class (since it is a member function)
 
   std::string title = lua["window"]["title"];
   int winWidth = lua["window"]["width"];
@@ -32,12 +34,7 @@ int main() {
   window.setFramerateLimit(60);
 
   Textures tx_cache;
-  /*
-  sf::Texture gargTexture;
-  if (!gargTexture.loadFromFile("garg.gif")) {
-    std::cout << "Could not load garg.gif?!\n";
-  }
-  */
+
   sf::Color background(17, 13, 42); // 17 13 42 is the background in the gif
  
   Player player(tx_cache.get("garg.gif"), m_audioEngine, lua);

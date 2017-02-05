@@ -24,7 +24,16 @@ private:
   
   const AudioEngine& m_audio;
   sol::state& m_lua;
-  sol::function updater;
+
+  std::string m_form;
+
+  // "events"
+  sol::function onJump;
+  sol::function onLand;
+
+  // lua funcs
+  void setup_lua();
+  void set_texture(int x, int y, int w, int h);
 };
 
 #endif // PLAYER_HPP
