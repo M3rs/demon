@@ -34,10 +34,10 @@ end
 
 function player.big.onJump()
    player.set_texture_rect(674, 138, 97, 89)
-   fmod.playOneShot("event:/thor")
+   fmod.playOneShotWithParameter("event:/player/jump", "transform", 1.0)
 end
 
 function player.big.onLand()
    player.set_texture_rect(12, 140, 98, 88)
-   fmod.playOneShot("event:/player/land")
+   fmod.playOneShotWithParameter("event:/player/land", "transform", 1.0)
 end

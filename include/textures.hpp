@@ -3,7 +3,7 @@
 
 #include <map>
 #include <string>
-#include <SFML/Graphics.hpp>
+#include <Graphics.hpp>
 
 class Textures {
 public:

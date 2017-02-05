@@ -79,6 +79,38 @@ void AudioEngine::playOneShot(const std::string &eventPath) const {
   OneShot::Play(evtDesc);
 }
 
+void AudioEngine::playOneShotWithParameter(
+	const std::string& eventPath, 
+	const std::string& paramName, 
+	float paramValue)
+{
+	FMOD_RESULT result;
+	FMOD::Studio::EventDescription *evtDesc(nullptr);
+	result = m_studioSystem->getEvent(eventPath.c_str(), &evtDesc);
+	if (result != FMOD_OK)
+	{
+		std::cout << "Error starting oneshot from path: " << eventPath.c_str()
+			<< std::endl;
+		return;
+	}
+	FMOD::Studio::EventInstance *evtInst(nullptr);
+	result = evtDesc->createInstance(&evtInst);
+	if (result != FMOD_OK) {
+		std::cout << "Error creating instance from EvtDesc" << eventPath.c_str()
+			<< std::endl;
+		return;
+	}
+	result = evtInst->setParameterValue(paramName.c_str(), paramValue);
+	if (result != FMOD_OK) {
+		std::cout << "Error setting parameter " << paramName.c_str() <<
+			" -- check that the Event has this parameter defined." << std::endl;
+		return;
+	}
+	evtInst->start();
+	evtInst->release();
+	return;
+}
+
 void AudioEngine::update() { m_studioSystem->update(); }
 
 bool AudioEngine::loadBank(const std::string& path) {

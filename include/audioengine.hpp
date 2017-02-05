@@ -21,6 +21,11 @@ public:
 
 	void playOneShot(const std::string& path) const;
 
+	void playOneShotWithParameter(
+		const std::string& eventPath,
+		const std::string& paramName,
+		float paramValue);
+
 	void update();
 
 private:

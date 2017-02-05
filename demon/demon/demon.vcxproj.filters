@@ -27,6 +27,9 @@
     <ClCompile Include="..\..\src\player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\textures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\audioengine.hpp">
@@ -38,5 +41,16 @@
     <ClInclude Include="..\..\include\oneshot.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\textures.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\player.lua">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\..\settings.lua">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

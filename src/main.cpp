@@ -25,6 +25,9 @@ int main() {
   fmod.set_function("playOneShot",  // function name
 		    &AudioEngine::playOneShot, // class function address
 		    &m_audioEngine); // instance of class (since it is a member function)
+  fmod.set_function("playOneShotWithParameter",
+			&AudioEngine::playOneShotWithParameter,
+			&m_audioEngine);
 
   std::string title = lua["window"]["title"];
   int winWidth = lua["window"]["width"];
