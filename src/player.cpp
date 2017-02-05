@@ -1,10 +1,11 @@
 #include "player.hpp"
 
-Player::Player(const sf::Texture &texture, const AudioEngine &audio,
+Player::Player(Textures &textures, const AudioEngine &audio,
                sol::state &lua)
-    : m_sprite(texture), m_audio(audio), m_speed(2), m_isJumping(false),
-      m_lua(lua) {
+    : m_textures(textures), m_audio(audio), m_speed(2), m_isJumping(false),
+      m_lua(lua), m_form("normal") {
 
+  m_sprite.setTexture(m_textures.get("garg.gif"));
   m_sprite.setTextureRect(sf::IntRect(0, 32, 32, 50));
   m_sprite.setPosition(300, 400);
 
@@ -13,11 +14,17 @@ Player::Player(const sf::Texture &texture, const AudioEngine &audio,
 
 void Player::setup_lua() {
   m_lua.script_file("player.lua");
-  onJump = m_lua["player"]["normal"]["onJump"];
-  onLand = m_lua["player"]["normal"]["onLand"];
+  set_events();
 
   sol::table player_t = m_lua["player"];
   player_t.set_function("set_texture_rect", &Player::set_texture, this);
+  player_t.set_function("change_texture", &Player::change_texture, this);
+}
+
+void Player::set_events()
+{
+  onJump = m_lua["player"][m_form]["onJump"];
+  onLand = m_lua["player"][m_form]["onLand"];
 }
 
 void Player::handle_event(const sf::Event &event) {
@@ -32,6 +39,18 @@ void Player::handle_event(const sf::Event &event) {
       // reload player script
       std::cout << "Reloading player.lua\n";
       setup_lua();
+
+      break;
+    case sf::Keyboard::T:
+
+      if (m_form == "normal") {
+	m_form = "big";
+	set_events();
+      } else if (m_form == "big") {
+	m_form = "normal";
+	set_events();
+      }
+      m_lua["player"][m_form]["onTransform"]();
 
       break;
     default:
@@ -62,4 +81,9 @@ const sf::Sprite &Player::sprite() const { return m_sprite; }
 
 void Player::set_texture(int x, int y, int w, int h) {
   m_sprite.setTextureRect(sf::IntRect(x, y, w, h));
+}
+
+void Player::change_texture(const std::string& txname)
+{
+  m_sprite.setTexture(m_textures.get(txname));
 }

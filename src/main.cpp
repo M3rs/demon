@@ -37,7 +37,7 @@ int main() {
 
   sf::Color background(17, 13, 42); // 17 13 42 is the background in the gif
  
-  Player player(tx_cache.get("garg.gif"), m_audioEngine, lua);
+  Player player(tx_cache, m_audioEngine, lua);
 
   int minerals = 1000;
 
