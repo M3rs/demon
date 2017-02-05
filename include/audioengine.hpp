@@ -28,7 +28,7 @@ public:
 
 	void update();
 	
-	FMOD_RESULT errorcheck(FMOD_RESULT result_) const;
+	bool errorcheck(FMOD_RESULT result_) const;
 
 private:
 	FMOD::Studio::System*	m_studioSystem;
