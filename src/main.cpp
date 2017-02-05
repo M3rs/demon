@@ -3,6 +3,7 @@
 #include "audioengine.hpp"
 #include <SFML/Graphics.hpp>
 #include <sol.hpp>
+#include "textures.hpp"
 
 #include "player.hpp"
 
@@ -30,13 +31,16 @@ int main() {
   sf::RenderWindow window(sf::VideoMode(winWidth, winHeight), title);
   window.setFramerateLimit(60);
 
+  Textures tx_cache;
+  /*
   sf::Texture gargTexture;
   if (!gargTexture.loadFromFile("garg.gif")) {
     std::cout << "Could not load garg.gif?!\n";
   }
+  */
   sf::Color background(17, 13, 42); // 17 13 42 is the background in the gif
  
-  Player player(gargTexture, m_audioEngine, lua);
+  Player player(tx_cache.get("garg.gif"), m_audioEngine, lua);
 
   int minerals = 1000;
 
