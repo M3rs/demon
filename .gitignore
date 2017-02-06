@@ -1,7 +1,11 @@
+# junk files from emacs
 *~
 *#
 
+# my build dir
 build
+
+# visual studio junk
 demon
 !demon.sln
 !demon.sdf
