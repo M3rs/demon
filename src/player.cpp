@@ -34,7 +34,8 @@ void Player::handle_event(const sf::Event &event) {
     switch (event.key.code) {
     case sf::Keyboard::Space:
       m_isJumping = true;
-      m_force = sf::Vector2f(0, -14);
+      //m_force = sf::Vector2f(0, -14);
+      m_force = sf::Vector2f(0, m_lua["player"][m_form]["jump"]);
       onJump();
       break;
     case sf::Keyboard::R:
@@ -79,6 +80,7 @@ void Player::update() {
     // m_sprite.move(sf::Vector2f(0, 3)); // extra gravity
   }
 
+  if (m_force.y >= 0) {
   auto aabb = m_sprite.getGlobalBounds();
 
   // if (m_sprite.getPosition().y >= 400 && m_isJumping) {
@@ -90,6 +92,7 @@ void Player::update() {
       m_isJumping = false;
       onLand();
     }
+  }
   }
 }
 

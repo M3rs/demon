@@ -5,7 +5,9 @@
 player = {}
 
 -- player normal form
-player.normal = {}
+player.normal = {
+   jump = -20
+}
 
 function player.normal.onTransform()
    print("transforming to normal!")
@@ -27,7 +29,9 @@ function player.normal.onLand()
 end
 
 -- player big form
-player.big = {}
+player.big = {
+   jump = -14
+}
 
 function player.big.onTransform()
    print("transforming to big!")
