@@ -3,12 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 #include <sol.hpp>
-#include "audioengine.hpp"
 #include "textures.hpp"
 
 class Player {
 public:
-  Player(Textures& textures, const AudioEngine& audio, sol::state& lua);
+  Player(Textures& textures, sol::state& lua);
 
   void handle_event(const sf::Event& event);
   void update();
@@ -24,7 +23,6 @@ private:
   int m_speed;
   
   Textures& m_textures;
-  const AudioEngine& m_audio;
   sol::state& m_lua;
 
   std::string m_form;

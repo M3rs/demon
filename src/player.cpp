@@ -1,8 +1,9 @@
 #include "player.hpp"
 
-Player::Player(Textures &textures, const AudioEngine &audio,
-               sol::state &lua)
-    : m_textures(textures), m_audio(audio), m_speed(2), m_isJumping(false),
+#include <iostream>
+
+Player::Player(Textures &textures, sol::state &lua)
+    : m_textures(textures), m_speed(2), m_isJumping(false),
       m_lua(lua), m_form("normal") {
 
   m_sprite.setTexture(m_textures.get("garg.gif"));
@@ -60,18 +61,24 @@ void Player::handle_event(const sf::Event &event) {
 }
 
 void Player::update() {
+  // reset x velocity to 0 (could not and have accel/deccel (more complicated)
+  m_force.x = 0;
+  
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-    m_sprite.move(m_speed * -1, 0);
+    m_force.x = m_speed * -1;
   } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-    m_sprite.move(m_speed, 0);
+    m_force.x = m_speed;
   }
 
+  m_sprite.move(m_force);
+
   if (m_isJumping) {
-    m_sprite.move(m_force);
     m_force.y += 1;
-    m_sprite.move(sf::Vector2f(0, 3));
+    m_sprite.move(sf::Vector2f(0, 3)); // extra gravity
   }
+
   if (m_sprite.getPosition().y >= 400 && m_isJumping) {
+    m_force.y = 0;
     m_isJumping = false;
     onLand();
   }
