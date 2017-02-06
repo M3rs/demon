@@ -1,5 +1,8 @@
 # TODO
 
+## BUGS
+- moving to the left in normal form causes you to FLYYYY off the world
+
 ## Collision / Jumping
 - Clean up
 - Fix height/growth? Is the m_force >= 0 check good enough?
