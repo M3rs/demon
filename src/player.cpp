@@ -22,6 +22,7 @@ void Player::setup_lua() {
   player_t.set_function("set_texture_rect", &Player::set_texture, this);
   player_t.set_function("change_texture", &Player::change_texture, this);
   player_t.set_function("move_sprite", &Player::move_sprite, this);
+  player_t.set_function("set_texture_and_offset", &Player::set_texture_and_offset, this);
 }
 
 void Player::set_events() {
@@ -107,3 +108,13 @@ void Player::change_texture(const std::string &txname) {
 }
 
 void Player::move_sprite(float x, float y) { m_sprite.move(x, y); }
+
+void Player::set_texture_and_offset(int x, int y, int w, int h) {
+	//shortcut for setTexture and moveSprite
+	//adjusts so as to keep bottom plane consistent
+
+	sf::IntRect oldRect;
+	oldRect = m_sprite.getTextureRect();
+	m_sprite.setTextureRect(sf::IntRect(x, y, w, h));
+	m_sprite.move(0, oldRect.height - h);
+}
