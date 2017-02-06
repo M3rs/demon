@@ -15,3 +15,9 @@
 ## Animations
 - Add basic animation(s)
 - Should probably have a texture and a set of IntRects for frames?
+
+## Organization
+- Create `res` folder for resources, with sub folders:
+  * `banks` FMOD bank files
+  * `images` Any images
+  * `scripts` Lua scripts
