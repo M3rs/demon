@@ -119,7 +119,10 @@ bool AudioEngine::unloadBank(const std::string& path) {
 
 bool AudioEngine::errorcheck(FMOD_RESULT result_) const{
 	//return true if no error
-	if (result_ != FMOD_OK) 
+	if (result_ != FMOD_OK) {
 		std::cout << "FMOD error: " << FMOD_ErrorString(result_) << std::endl;
+		return false;
+	}
+		
 	return true;
 }
