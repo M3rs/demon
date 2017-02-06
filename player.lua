@@ -11,6 +11,7 @@ function player.normal.onTransform()
    print("transforming to normal!")
    player.change_texture("garg.gif")
    player.set_texture_rect(0, 32, 32, 50)
+   player.move_sprite(0, 38)
 end
 
 function player.normal.onJump()
@@ -30,6 +31,7 @@ function player.big.onTransform()
    print("transforming to big!")
    player.change_texture("big.gif")
    player.set_texture_rect(12, 140, 98, 88)
+   player.move_sprite(0, -38)
 end
 
 function player.big.onJump()

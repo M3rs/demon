@@ -36,6 +36,7 @@ private:
   void set_events();
   void set_texture(int x, int y, int w, int h);
   void change_texture(const std::string& txname);
+  void move_sprite(float x, float y);
 };
 
 #endif // PLAYER_HPP

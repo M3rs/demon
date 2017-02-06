@@ -20,6 +20,7 @@ void Player::setup_lua() {
   sol::table player_t = m_lua["player"];
   player_t.set_function("set_texture_rect", &Player::set_texture, this);
   player_t.set_function("change_texture", &Player::change_texture, this);
+  player_t.set_function("move_sprite", &Player::move_sprite, this);
 }
 
 void Player::set_events()
@@ -93,4 +94,8 @@ void Player::set_texture(int x, int y, int w, int h) {
 void Player::change_texture(const std::string& txname)
 {
   m_sprite.setTexture(m_textures.get(txname));
+}
+
+void Player::move_sprite(float x, float y) {
+	m_sprite.move(x, y);
 }
