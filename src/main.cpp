@@ -29,6 +29,11 @@ int main() {
   sf::Color background(17, 13, 42); // 17 13 42 is the background in the gif
  
   Player player(tx_cache, lua);
+  // floor
+  sf::RectangleShape floor;
+  floor.setSize(sf::Vector2f(640, 50));
+  floor.setPosition(0, 400);
+  floor.setFillColor(sf::Color::White);
 
 
   while (window.isOpen()) {
@@ -59,6 +64,7 @@ int main() {
 
     // render
     window.clear(background);
+    window.draw(floor);
     window.draw(player.sprite());
     window.display();
   }

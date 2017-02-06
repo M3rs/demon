@@ -7,7 +7,8 @@ Player::Player(Textures &textures, sol::state &lua)
       m_lua(lua), m_form("normal") {
 
   m_sprite.setTexture(m_textures.get("garg.gif"));
-  m_sprite.setTextureRect(sf::IntRect(0, 32, 32, 50));
+  m_sprite.setTextureRect(sf::IntRect(0, 38, 32, 42));
+  //m_sprite.setTextureRect(sf::IntRect(0, 32, 32, 50));
   m_sprite.setPosition(300, 400);
 
   setup_lua();
@@ -78,7 +79,11 @@ void Player::update() {
     m_sprite.move(sf::Vector2f(0, 3)); // extra gravity
   }
 
-  if (m_sprite.getPosition().y >= 400 && m_isJumping) {
+  auto aabb = m_sprite.getGlobalBounds();
+
+  //if (m_sprite.getPosition().y >= 400 && m_isJumping) {
+  if ((aabb.top + aabb.height) >= 400 && m_isJumping) {
+    m_sprite.setPosition(aabb.left, 400 - aabb.height);
     m_force.y = 0;
     m_isJumping = false;
     onLand();

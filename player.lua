@@ -10,7 +10,8 @@ player.normal = {}
 function player.normal.onTransform()
    print("transforming to normal!")
    player.change_texture("garg.gif")
-   player.set_texture_rect(0, 32, 32, 50)
+   -- 38, 80
+   player.set_texture_rect(0, 38, 32, 42)
    player.move_sprite(0, 38)
 end
 
@@ -20,7 +21,8 @@ function player.normal.onJump()
 end
 
 function player.normal.onLand()
-   player.set_texture_rect(0, 32, 32, 50)
+   player.set_texture_rect(0, 38, 32, 42)
+   --player.set_texture_rect(0, 32, 32, 50)
    fmod.playOneShot("event:/player/land")
 end
 
