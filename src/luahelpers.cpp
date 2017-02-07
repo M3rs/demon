@@ -45,6 +45,7 @@ void register_window_sdl(sol::state &lua, SDL_Window  *window,
 			SDL_FillRect(screenSurface, NULL,
 						SDL_MapRGB(screenSurface->format, 17, 13, 42));
 			SDL_UpdateWindowSurface(window);
+			SDL_Delay(4000); //debug purposes only
 		}
 	}
 

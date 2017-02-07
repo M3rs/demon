@@ -1,6 +1,9 @@
 #ifndef LUAHELPERS_HPP
 #define LUAHELPERS_HPP
 
+#include <SDL.h>
+#include <stdio.h>
+
 // forward declares
 namespace sol {
   class state;

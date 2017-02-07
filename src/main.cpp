@@ -1,9 +1,7 @@
 #include <iostream>
 
 #include "audioengine.hpp"
-//#include <SFML/Graphics.hpp>
-#include <SDL.h>
-#include <stdio.h>
+#include <SFML/Graphics.hpp>
 #include <sol.hpp>
 #include "textures.hpp"
 #include "luahelpers.hpp"
@@ -40,7 +38,7 @@ int main(int argc, char* args[]) {
   floor.setPosition(0, 400);
   floor.setFillColor(sf::Color::White);
 
-
+  /*
   while (window.isOpen()) {
 
     // handle input
@@ -73,6 +71,6 @@ int main(int argc, char* args[]) {
     window.draw(player.sprite());
     window.display();
   }
-
+  */
   return 0;
 }
