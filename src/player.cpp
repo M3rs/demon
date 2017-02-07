@@ -118,3 +118,8 @@ void Player::set_texture_and_offset(int x, int y, int w, int h) {
 	m_sprite.setTextureRect(sf::IntRect(x, y, w, h));
 	m_sprite.move(0, oldRect.height - h);
 }
+
+bool Player::isKeyPressed(const Uint8 * keyboardState, char * keyName)
+{
+	return keyboardState[SDL_GetScancodeFromName(keyName)];
+}

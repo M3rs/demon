@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "audioengine.hpp"
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 #include <sol.hpp>
 #include "textures.hpp"
 #include "luahelpers.hpp"
@@ -21,6 +21,7 @@ int main(int argc, char* args[]) {
   //sf::RenderWindow window;
   SDL_Window* window = NULL;
   SDL_Surface* screenSurface = NULL;
+  const Uint8* keyboardState;
 
   // register / initialize w/ lua
   register_fmod(lua, m_audioEngine);
@@ -38,11 +39,31 @@ int main(int argc, char* args[]) {
   floor.setPosition(0, 400);
   floor.setFillColor(sf::Color::White);
 
+  std::cin.get();
+
+  SDL_PumpEvents();
+  keyboardState = SDL_GetKeyboardState(NULL);
+  char* keyToPoll = "Space";
+  if (player.isKeyPressed(keyboardState, keyToPoll)) {
+	  std::cout << "Spacebar press detected!" << std::endl;
+  }
+  else
+	  std::cout << "Spacebar not detected... :(" << std::endl;
+  
+  std::cout << "Press enter to terminate . . ." << std::endl;
+  std::cin.get();
+
+
   /*
   while (window.isOpen()) {
 
     // handle input
-    sf::Event event;
+    //sf::Event event;
+
+	  
+		  
+
+
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) {
         window.close();
@@ -72,5 +93,9 @@ int main(int argc, char* args[]) {
     window.display();
   }
   */
+  //SDL cleanup
+  SDL_DestroyWindow(window);
+  SDL_Quit();
+
   return 0;
 }

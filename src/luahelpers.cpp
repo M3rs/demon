@@ -2,8 +2,6 @@
 
 #include "audioengine.hpp"
 #include <SFML/Graphics.hpp>
-#include <SDL.h>
-#include <stdio.h>
 #include <sol.hpp>
 
 void register_fmod(sol::state &lua, AudioEngine &audio) {
@@ -50,3 +48,4 @@ void register_window_sdl(sol::state &lua, SDL_Window  *window,
 	}
 
 }
+

@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <sol.hpp>
 #include "textures.hpp"
+#include <SDL.h>
+#include <stdio.h>
 
 class Player {
 public:
@@ -13,6 +15,8 @@ public:
   void update();
 
   const sf::Sprite& sprite() const;
+
+  bool isKeyPressed(const Uint8 *keyboardState, char* keyName);
   
 private:
 
@@ -38,6 +42,7 @@ private:
   void change_texture(const std::string& txname);
   void move_sprite(float x, float y);
   void set_texture_and_offset(int x, int y, int w, int h);
+  
 };
 
 #endif // PLAYER_HPP
