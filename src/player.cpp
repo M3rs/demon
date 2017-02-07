@@ -30,46 +30,43 @@ void Player::set_events() {
   onLand = m_lua["player"][m_form]["onLand"];
 }
 
-void Player::handle_event(const sf::Event &event) {
-  if (event.type == sf::Event::KeyReleased) {
-    switch (event.key.code) {
-    case sf::Keyboard::Space:
-      m_isJumping = true;
-      //m_force = sf::Vector2f(0, -14);
-      m_force = sf::Vector2f(0, m_lua["player"][m_form]["jump"]);
-      onJump();
-      break;
-    case sf::Keyboard::R:
-      // reload player script
-      std::cout << "Reloading player.lua\n";
-      setup_lua();
+void Player::handle_event(SDL_Keycode keycode) {
 
-      break;
-    case sf::Keyboard::T:
-
-      if (m_form == "normal") {
-        m_form = "big";
-        set_events();
-      } else if (m_form == "big") {
-        m_form = "normal";
-        set_events();
-      }
-      m_lua["player"][m_form]["onTransform"]();
-
-      break;
-    default:
-      break;
+	switch (keycode) {
+		case SDLK_SPACE:
+			m_isJumping = true;
+			//m_force = sf::Vector2f(0, -14);
+			m_force = sf::Vector2f(0, m_lua["player"][m_form]["jump"]);
+			onJump();
+			break;
+		case SDLK_r:
+			// reload player script
+			std::cout << "Reloading player.lua\n";
+			setup_lua();
+			break;
+		case SDLK_t:
+			if (m_form == "normal") {
+				m_form = "big";
+				set_events();      
+			}
+			else if (m_form == "big") {
+				m_form = "normal";
+				set_events();
+			}
+			m_lua["player"][m_form]["onTransform"]();
+			break;
+		default:
+			break;
     }
-  }
 }
 
-void Player::update() {
+void Player::update(const Uint8* input) {
   // reset x velocity to 0 (could not and have accel/deccel (more complicated)
   m_force.x = 0;
 
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+  if (isKeyPressed(input, "A")) {
     m_force.x = m_speed * -1;
-  } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+  } else if (isKeyPressed(input, "D")) {
     m_force.x = m_speed;
   }
 
@@ -119,7 +116,7 @@ void Player::set_texture_and_offset(int x, int y, int w, int h) {
 	m_sprite.move(0, oldRect.height - h);
 }
 
-bool Player::isKeyPressed(const Uint8 * keyboardState, char * keyName)
+bool Player::isKeyPressed(const Uint8 * input, char * keyName)
 {
-	return keyboardState[SDL_GetScancodeFromName(keyName)];
+	return input[SDL_GetScancodeFromName(keyName)];
 }

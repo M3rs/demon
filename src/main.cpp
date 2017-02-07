@@ -12,8 +12,7 @@ int main(int argc, char* args[]) {
   // load lua
   sol::state lua;
   lua.open_libraries(sol::lib::base, sol::lib::package);
-  lua.script_file("settings.lua");
-  
+  lua.script_file("settings.lua"); 
   
   AudioEngine m_audioEngine;
   m_audioEngine.initialize(); //TODO: if audio init error, use null implementation
@@ -39,23 +38,35 @@ int main(int argc, char* args[]) {
   floor.setPosition(0, 400);
   floor.setFillColor(sf::Color::White);
 
-  std::cin.get();
-
-  SDL_PumpEvents();
-  keyboardState = SDL_GetKeyboardState(NULL);
-  char* keyToPoll = "Space";
+  //SDL_PumpEvents();
+  
+  //char* keyToPoll = "Space";
  
   bool quit = false;
   SDL_Event e;
 
   while (!quit) {
 	  while (SDL_PollEvent(&e) != 0) {
-		  //handle inputs
+		  //manually X'ing out the window
 		  if (e.type == SDL_QUIT) {
 			  quit = true;
 		  }
+		  else if (e.type == SDL_KEYDOWN) {
+			  if (e.key.keysym.sym == SDLK_ESCAPE) {
+				  quit = true;
+			  }
+			  //handle discrete inputs
+			  player.handle_event(e.key.keysym.sym);
+		  }
 	  }
-	  //update state
+	  //handle continuous inputs
+	  keyboardState = SDL_GetKeyboardState(NULL);
+	  player.update(keyboardState);
+
+	  //update subsystems
+	  m_audioEngine.update();
+
+	  //update window
 	  SDL_UpdateWindowSurface(window);
   }
 

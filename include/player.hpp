@@ -11,8 +11,8 @@ class Player {
 public:
   Player(Textures& textures, sol::state& lua);
 
-  void handle_event(const sf::Event& event);
-  void update();
+  void handle_event(SDL_Keycode keycode);
+  void update(const Uint8* input);
 
   const sf::Sprite& sprite() const;
 
