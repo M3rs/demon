@@ -1,5 +1,11 @@
 # TODO
 
+## SDL2
+[Download Page][https://www.libsdl.org/download-2.0.php] - will need SDL and SDL_Image libraries. 
+- Make SDL, SDL_Image folders in include
+- Dump binaries in lib (this might be a good time to organize lib folder, actually, if only to make folders for our different middlewares)
+
+
 ## BUGS
 - moving to the left in normal form causes you to FLYYYY off the world
 
