@@ -1,13 +1,15 @@
 #include <iostream>
 
 #include "audioengine.hpp"
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
+#include <SDL.h>
+#include <stdio.h>
 #include <sol.hpp>
 #include "textures.hpp"
 #include "luahelpers.hpp"
 #include "player.hpp"
 
-int main() {
+int main(int argc, char* args[]) {
 
   // load lua
   sol::state lua;
@@ -18,11 +20,14 @@ int main() {
   AudioEngine m_audioEngine;
   m_audioEngine.initialize(); //TODO: if audio init error, use null implementation
 
-  sf::RenderWindow window;
+  //sf::RenderWindow window;
+  SDL_Window* window = NULL;
+  SDL_Surface* screenSurface = NULL;
 
   // register / initialize w/ lua
   register_fmod(lua, m_audioEngine);
-  register_window(lua, window);
+  //register_window_sfml(lua, window);
+  register_window_sdl(lua, window, screenSurface);
 
   Textures tx_cache;
 
