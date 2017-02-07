@@ -4,6 +4,7 @@
 [Download Page](https://www.libsdl.org/download-2.0.php) - will need SDL and SDL_Image libraries. 
 - Make SDL, SDL_Image folders in include
 - Dump binaries in lib (this might be a good time to organize lib folder, actually, if only to make folders for our different middlewares)
+
 ### Helpful Links
 - [Lazy Foo SDL Tutorials](http://lazyfoo.net/tutorials/SDL/index.php)
 - [SDL2 API by Category](https://wiki.libsdl.org/APIByCategory)
