@@ -42,8 +42,11 @@ void register_window_sdl(sol::state &lua, SDL_Window  *window,
 			screenSurface = SDL_GetWindowSurface(window);
 			SDL_FillRect(screenSurface, NULL,
 						SDL_MapRGB(screenSurface->format, 17, 13, 42));
+
+			//additional initial shapes should render here
+
 			SDL_UpdateWindowSurface(window);
-			SDL_Delay(4000); //debug purposes only
+			//SDL_Delay(4000); //debug purposes only
 		}
 	}
 

@@ -19,9 +19,9 @@ int main(int argc, char* args[]) {
   m_audioEngine.initialize(); //TODO: if audio init error, use null implementation
 
   //sf::RenderWindow window;
-  SDL_Window* window = NULL;
-  SDL_Surface* screenSurface = NULL;
-  const Uint8* keyboardState;
+  SDL_Window* window(NULL);
+  SDL_Surface* screenSurface(NULL);
+  const Uint8* keyboardState(NULL);
 
   // register / initialize w/ lua
   register_fmod(lua, m_audioEngine);
@@ -44,14 +44,20 @@ int main(int argc, char* args[]) {
   SDL_PumpEvents();
   keyboardState = SDL_GetKeyboardState(NULL);
   char* keyToPoll = "Space";
-  if (player.isKeyPressed(keyboardState, keyToPoll)) {
-	  std::cout << "Spacebar press detected!" << std::endl;
+ 
+  bool quit = false;
+  SDL_Event e;
+
+  while (!quit) {
+	  while (SDL_PollEvent(&e) != 0) {
+		  //handle inputs
+		  if (e.type == SDL_QUIT) {
+			  quit = true;
+		  }
+	  }
+	  //update state
+	  SDL_UpdateWindowSurface(window);
   }
-  else
-	  std::cout << "Spacebar not detected... :(" << std::endl;
-  
-  std::cout << "Press enter to terminate . . ." << std::endl;
-  std::cin.get();
 
 
   /*
@@ -93,8 +99,10 @@ int main(int argc, char* args[]) {
     window.display();
   }
   */
+
   //SDL cleanup
   SDL_DestroyWindow(window);
+  window = NULL;
   SDL_Quit();
 
   return 0;
