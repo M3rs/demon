@@ -123,5 +123,5 @@ void Player::set_texture_and_offset(int x, int y, int w, int h) {
 
 bool Player::isKeyPressed(const Uint8 * input, char * keyName)
 {
-	return input[SDL_GetScancodeFromName(keyName)];
+	return input[SDL_GetScancodeFromName(keyName)] == 1;
 }

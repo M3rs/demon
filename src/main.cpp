@@ -1,10 +1,8 @@
-#include <iostream>
-
 #include "audioengine.hpp"
-#include <sol.hpp>
 #include "textures.hpp"
 #include "luahelpers.hpp"
 #include "player.hpp"
+#include "renderer.hpp"
 
 int main(int argc, char* args[]) {
 
@@ -16,18 +14,18 @@ int main(int argc, char* args[]) {
   AudioEngine m_audioEngine;
   m_audioEngine.initialize(); //TODO: if audio init error, use null implementation
 
-  //sf::RenderWindow window;
-  SDL_Window* window(NULL);
-  SDL_Surface* screenSurface(NULL);
+  Renderer m_renderer;
+  if (!(m_renderer.initialize(lua))) {
+	  std::cout << "Renderer could not initialize; refer to SDL ErrorCodes.\n";
+	  std::cout << "Please resolve and try running again.\n";
+	  std::cin.get();
+  }
   const Uint8* keyboardState(NULL);
 
   // register / initialize w/ lua
   register_fmod(lua, m_audioEngine);
-  register_window_sdl(lua, window, screenSurface);
 
   Textures tx_cache;
-
-  //sf::Color background(17, 13, 42); // 17 13 42 is the background in the gif
  
   Player player(tx_cache, lua);
   // floor
@@ -37,10 +35,6 @@ int main(int argc, char* args[]) {
   floor.setPosition(0, 400);
   floor.setFillColor(sf::Color::White);
   */
-
-  //SDL_PumpEvents();
-  
-  //char* keyToPoll = "Space";
  
   bool quit = false;
   SDL_Event e;
@@ -66,14 +60,9 @@ int main(int argc, char* args[]) {
 	  //update subsystems
 	  m_audioEngine.update();
 
-	  //update window
-	  SDL_UpdateWindowSurface(window);
+	  //draw
+	  m_renderer.update();
   }
-
-  //SDL cleanup
-  SDL_DestroyWindow(window);
-  window = NULL;
-  SDL_Quit();
 
   return 0;
 }
