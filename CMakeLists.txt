@@ -5,10 +5,10 @@ set(CMAKE_CXX_STANDARD 14)
 project(demon)
 
 set(FMOD_LIBS fmod fmodstudio)
-set(SDL_LIBS SDL2)
+set(SDL_LIBS SDL2 SDL2_Image)
 set(LUA_LIBS lua)
 
-include_directories("include", "include/FMOD", "include/Lua", "include/SDL")
+include_directories("include", "include/FMOD", "include/Lua", "include/SDL", "include/SDL_Image")
 
 link_directories(lib/FMOD lib/Lua lib/SDL)
 

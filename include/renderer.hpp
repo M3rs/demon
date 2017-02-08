@@ -8,6 +8,9 @@ namespace sol {
   class state;
 }
 
+//tmp
+class SDL_Texture;
+
 class Renderer {
 public:
   Renderer();
@@ -19,6 +22,7 @@ public:
 private:
   SDL_Window *window;
   SDL_Renderer *renderer;
+  SDL_Texture *texture;
 };
 
 #endif // RENDERER_HPP
