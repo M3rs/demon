@@ -1,25 +1,24 @@
 #ifndef RENDERER_HPP
 #define RENDERER_HPP
 
-#include <SDL.h>
-#include <stdio.h>
-#include <string>
-#include <sol.hpp>
+// fwd decl
+class SDL_Window;
+class SDL_Renderer;
+namespace sol {
+  class state;
+}
 
 class Renderer {
 public:
-	Renderer();
-	~Renderer();
+  Renderer();
+  ~Renderer();
 
-	void update();
-	bool initialize(sol::state& lua);
+  void update();
+  bool initialize(sol::state &lua);
 
 private:
-	SDL_Window*		window;
-	SDL_Surface*	screenSurface;
-	SDL_Renderer*	renderer;
+  SDL_Window *window;
+  SDL_Renderer *renderer;
 };
 
-
-
-#endif //RENDERER_HPP
+#endif // RENDERER_HPP

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "audioengine.hpp"
 #include "textures.hpp"
 #include "luahelpers.hpp"
@@ -18,7 +19,7 @@ int main(int argc, char* args[]) {
   if (!(m_renderer.initialize(lua))) {
 	  std::cout << "Renderer could not initialize; refer to SDL ErrorCodes.\n";
 	  std::cout << "Please resolve and try running again.\n";
-	  std::cin.get();
+	  std::cin.get(); // if you run with Control+F5, you shouldn't need this ;)
   }
   const Uint8* keyboardState(NULL);
 
