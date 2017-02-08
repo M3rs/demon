@@ -11,7 +11,7 @@
 Maybe use something like this:
 ```cpp
 struct RenderInfo {
-	SDL_Textue* texture;
+	SDL_Textue* texture; // SDL_Texture** ?? (no coffee yet, but this hit me as possible)
 	SDL_Rect* source;
 	SDL_Rect* destination; // position
 };
