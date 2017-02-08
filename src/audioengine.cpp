@@ -21,12 +21,9 @@ AudioEngine::AudioEngine()
     : m_studioSystem(nullptr), m_lowLevelSystem(nullptr) {}
 
 AudioEngine::~AudioEngine() {
-  unloadBank("res/banks/player.bank");
-  unloadBank("res/banks/starcraft.bank");
-  unloadBank("res/banks/Master bank.strings.bank");
-  unloadBank("res/banks/Master bank.bank");
 
-  m_studioSystem->unloadAll();
+  // https://www.fmod.org/docs/content/generated/FMOD_Studio_System_Release.html
+  // According to docs, "This will free the Studio System object and everything created under it."
   if (m_studioSystem != NULL)
     m_studioSystem->release();
 }
