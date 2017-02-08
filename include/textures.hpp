@@ -3,14 +3,14 @@
 
 #include <map>
 #include <string>
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 
 class Textures {
 public:
 
   Textures();
 
-  const sf::Texture& get(const std::string& filename);
+  //const sf::Texture& get(const std::string& filename);
   // Remove method?
 
   void loadTexture(const std::string& filename);
@@ -19,7 +19,7 @@ public:
 
 private:
 
-  std::map<std::string, const sf::Texture> m_cache;
+  //std::map<std::string, const sf::Texture> m_cache;
 };
 
 #endif // TEXTURES_HPP

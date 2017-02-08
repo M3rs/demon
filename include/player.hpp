@@ -1,7 +1,6 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
-#include <SFML/Graphics.hpp>
 #include <sol.hpp>
 #include "textures.hpp"
 #include <SDL.h>
@@ -14,15 +13,15 @@ public:
   void handle_event(SDL_Keycode keycode);
   void update(const Uint8* input);
 
-  const sf::Sprite& sprite() const;
+  //const sf::Sprite& sprite() const;
 
   bool isKeyPressed(const Uint8 *keyboardState, char* keyName);
   
 private:
 
-  sf::Sprite m_sprite;
+  //sf::Sprite m_sprite;
   bool m_isJumping;
-  sf::Vector2f m_force;
+  //sf::Vector2f m_force;
 
   int m_speed;
   

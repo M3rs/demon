@@ -10,7 +10,7 @@ set(LUA_LIBS lua)
 
 include_directories("include", "include/FMOD", "include/Lua", "include/SDL")
 
-link_directories("lib/FMOD", "lib/Lua", "lib/SDL")
+link_directories(lib/FMOD lib/Lua lib/SDL)
 
 file (GLOB SOURCES "src/*.cpp")
 

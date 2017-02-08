@@ -6,16 +6,17 @@ Player::Player(Textures &textures, sol::state &lua)
     : m_textures(textures), m_speed(2), m_isJumping(false), m_lua(lua),
       m_form("normal") {
 
-  m_sprite.setTexture(m_textures.get("res/images/garg.gif"));
-  m_sprite.setTextureRect(sf::IntRect(0, 38, 32, 42));
+  //m_sprite.setTexture(m_textures.get("res/images/garg.gif"));
+  //m_sprite.setTextureRect(sf::IntRect(0, 38, 32, 42));
   // m_sprite.setTextureRect(sf::IntRect(0, 32, 32, 50));
-  m_sprite.setPosition(300, 400);
+  //m_sprite.setPosition(300, 400);
 
   setup_lua();
 }
 
 void Player::setup_lua() {
-  m_lua.script_file("player.lua");
+  m_lua.script_file("res/scripts/player.lua");
+  //test
   set_events();
 
   sol::table player_t = m_lua["player"];
@@ -36,7 +37,7 @@ void Player::handle_event(SDL_Keycode keycode) {
 		case SDLK_SPACE:
 			m_isJumping = true;
 			//m_force = sf::Vector2f(0, -14);
-			m_force = sf::Vector2f(0, m_lua["player"][m_form]["jump"]);
+			//m_force = sf::Vector2f(0, m_lua["player"][m_form]["jump"]);
 			onJump();
 			break;
 		case SDLK_r:
@@ -62,58 +63,62 @@ void Player::handle_event(SDL_Keycode keycode) {
 
 void Player::update(const Uint8* input) {
   // reset x velocity to 0 (could not and have accel/deccel (more complicated)
-  m_force.x = 0;
+  //m_force.x = 0;
 
   if (isKeyPressed(input, "A")) {
-    m_force.x = m_speed * -1;
+    //m_force.x = m_speed * -1;
   } else if (isKeyPressed(input, "D")) {
-    m_force.x = m_speed;
+    //m_force.x = m_speed;
   }
 
-  m_sprite.move(m_force);
-  m_sprite.move(sf::Vector2f(0, 3)); // extra gravity
+  //m_sprite.move(m_force);
+  //m_sprite.move(sf::Vector2f(0, 3)); // extra gravity
 
   if (m_isJumping) {
-    m_force.y += 1;
+    //m_force.y += 1;
     // m_sprite.move(sf::Vector2f(0, 3)); // extra gravity
   }
 
+  /*
   if (m_force.y >= 0) {
   auto aabb = m_sprite.getGlobalBounds();
 
   // if (m_sprite.getPosition().y >= 400 && m_isJumping) {
   // if ((aabb.top + aabb.height) >= 400 && m_isJumping) {
   if ((aabb.top + aabb.height) >= 400) {
-    m_sprite.setPosition(aabb.left, 400 - aabb.height);
-    m_force.y = 0;
+    //m_sprite.setPosition(aabb.left, 400 - aabb.height);
+    //m_force.y = 0;
     if (m_isJumping) {
       m_isJumping = false;
       onLand();
     }
   }
   }
+  */
 }
 
-const sf::Sprite &Player::sprite() const { return m_sprite; }
+//const sf::Sprite &Player::sprite() const { return m_sprite; }
 
 void Player::set_texture(int x, int y, int w, int h) {
-  m_sprite.setTextureRect(sf::IntRect(x, y, w, h));
+  //m_sprite.setTextureRect(sf::IntRect(x, y, w, h));
 }
 
 void Player::change_texture(const std::string &txname) {
-  m_sprite.setTexture(m_textures.get(txname));
+  //m_sprite.setTexture(m_textures.get(txname));
 }
 
-void Player::move_sprite(float x, float y) { m_sprite.move(x, y); }
+void Player::move_sprite(float x, float y) {
+  //m_sprite.move(x, y);
+}
 
 void Player::set_texture_and_offset(int x, int y, int w, int h) {
 	//shortcut for setTexture and moveSprite
 	//adjusts so as to keep bottom plane consistent
 
-	sf::IntRect oldRect;
-	oldRect = m_sprite.getTextureRect();
-	m_sprite.setTextureRect(sf::IntRect(x, y, w, h));
-	m_sprite.move(0, oldRect.height - h);
+	//sf::IntRect oldRect;
+	//oldRect = m_sprite.getTextureRect();
+	//m_sprite.setTextureRect(sf::IntRect(x, y, w, h));
+	//m_sprite.move(0, oldRect.height - h);
 }
 
 bool Player::isKeyPressed(const Uint8 * input, char * keyName)
