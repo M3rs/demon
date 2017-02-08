@@ -1,45 +1,38 @@
 #ifndef AUDIOENGINE_HPP
 #define AUDIOENGINE_HPP
 
-#include "fmod_studio.hpp"
-#include <iostream>
-#include <map>
-
 #include <string>
+
+// fwds
+namespace FMOD {
+  class System;
+  namespace Studio {
+    class System;
+  }
+}
 
 class AudioEngine {
 public:
-	AudioEngine();
-	~AudioEngine();
+  AudioEngine();
+  ~AudioEngine();
 
-	bool initialize();
+  bool initialize();
 
-	bool loadBank(const std::string& path);
+  bool loadBank(const std::string &path);
 
-	//TODO: do something with return value
-	bool unloadBank(const std::string& path); 
+  // TODO: do something with return value
+  bool unloadBank(const std::string &path);
 
-	void playOneShot(const std::string& path) const;
+  void playOneShot(const std::string &path) const;
 
-	void playOneShotWithParameter(
-		const std::string& eventPath,
-		const std::string& paramName,
-		float paramValue);
+  void playOneShotWithParameter(const std::string &eventPath,
+                                const std::string &paramName, float paramValue);
 
-	void update();
-	
-	bool errorcheck(FMOD_RESULT result_) const;
+  void update();
 
 private:
-	FMOD::Studio::System*	m_studioSystem;
-	FMOD::System*			m_lowLevelSystem;
-	FMOD::Studio::Bank*		masterBank;
-	FMOD::Studio::Bank*		stringsBank;
-	FMOD::Studio::Bank*		starcraftBank;
-
-	FMOD_RESULT				result;
-
+  FMOD::Studio::System *m_studioSystem;
+  FMOD::System *m_lowLevelSystem;
 };
-
 
 #endif // AUDIOENGINE_HPP
