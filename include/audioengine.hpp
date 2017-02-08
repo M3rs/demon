@@ -3,9 +3,10 @@
 
 #include <string>
 
-namespace {
+// fwds
+namespace FMOD {
   class System;
-  namespace {
+  namespace Studio {
     class System;
   }
 }
@@ -29,13 +30,9 @@ public:
 
   void update();
 
-  bool errorcheck(FMOD_RESULT result_) const;
-
 private:
   FMOD::Studio::System *m_studioSystem;
   FMOD::System *m_lowLevelSystem;
-
-  FMOD_RESULT result;
 };
 
 #endif // AUDIOENGINE_HPP

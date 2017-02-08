@@ -1,8 +1,21 @@
 #include "audioengine.hpp"
 
-#include "fmod_studio.hpp"
 #include "fmod_errors.h"
+#include "fmod_studio.hpp"
 #include <iostream>
+
+namespace {
+
+// return true if no error
+bool errorcheck(FMOD_RESULT result_) {
+  if (result_ != FMOD_OK) {
+    std::cout << "FMOD error: " << FMOD_ErrorString(result_) << std::endl;
+    return false;
+  }
+
+  return true;
+}
+}
 
 AudioEngine::AudioEngine()
     : m_studioSystem(nullptr), m_lowLevelSystem(nullptr) {}
@@ -13,12 +26,13 @@ AudioEngine::~AudioEngine() {
   unloadBank("res/banks/Master bank.strings.bank");
   unloadBank("res/banks/Master bank.bank");
 
+  m_studioSystem->unloadAll();
   if (m_studioSystem != NULL)
     m_studioSystem->release();
 }
 
 bool AudioEngine::initialize() {
-  result = FMOD::Studio::System::create(&m_studioSystem);
+  auto result = FMOD::Studio::System::create(&m_studioSystem);
   if (!errorcheck(result))
     return false;
 
@@ -51,9 +65,8 @@ bool AudioEngine::initialize() {
 }
 
 void AudioEngine::playOneShot(const std::string &eventPath) const {
-  FMOD_RESULT result;
   FMOD::Studio::EventDescription *evtDesc(nullptr);
-  result = m_studioSystem->getEvent(eventPath.c_str(), &evtDesc);
+  auto result = m_studioSystem->getEvent(eventPath.c_str(), &evtDesc);
   if (!errorcheck(result))
     return;
   // OneShot::Play(evtDesc); //deprecated
@@ -70,9 +83,8 @@ void AudioEngine::playOneShot(const std::string &eventPath) const {
 void AudioEngine::playOneShotWithParameter(const std::string &eventPath,
                                            const std::string &paramName,
                                            float paramValue) {
-  FMOD_RESULT result;
   FMOD::Studio::EventDescription *evtDesc(nullptr);
-  result = m_studioSystem->getEvent(eventPath.c_str(), &evtDesc);
+  auto result = m_studioSystem->getEvent(eventPath.c_str(), &evtDesc);
   if (!errorcheck(result))
     return;
   FMOD::Studio::EventInstance *evtInst(nullptr);
@@ -94,8 +106,8 @@ void AudioEngine::update() { m_studioSystem->update(); }
 
 bool AudioEngine::loadBank(const std::string &path) {
   FMOD::Studio::Bank *bank(nullptr);
-  result = m_studioSystem->loadBankFile(path.c_str(),
-                                        FMOD_STUDIO_LOAD_BANK_NORMAL, &bank);
+  auto result = m_studioSystem->loadBankFile(
+      path.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &bank);
   if (!errorcheck(result))
     return false;
   return true;
@@ -103,7 +115,7 @@ bool AudioEngine::loadBank(const std::string &path) {
 
 bool AudioEngine::unloadBank(const std::string &path) {
   FMOD::Studio::Bank *bank(nullptr);
-  result = m_studioSystem->getBank(path.c_str(), &bank);
+  auto result = m_studioSystem->getBank(path.c_str(), &bank);
   if (!errorcheck(result))
     return false;
   else {
@@ -111,15 +123,5 @@ bool AudioEngine::unloadBank(const std::string &path) {
     if (!errorcheck(result))
       return false;
   }
-  return true;
-}
-
-bool AudioEngine::errorcheck(FMOD_RESULT result_) const {
-  // return true if no error
-  if (result_ != FMOD_OK) {
-    std::cout << "FMOD error: " << FMOD_ErrorString(result_) << std::endl;
-    return false;
-  }
-
   return true;
 }
