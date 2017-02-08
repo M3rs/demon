@@ -1,10 +1,5 @@
 # TODO
 
-## SDL2
-[Download Page](https://www.libsdl.org/download-2.0.php) - will need SDL and SDL_Image libraries. 
-- Make SDL, SDL_Image folders in include
-- Dump binaries in lib (this might be a good time to organize lib folder, actually, if only to make folders for our different middlewares)
-
 ### Helpful Links
 - [Lazy Foo SDL Tutorials](http://lazyfoo.net/tutorials/SDL/index.php)
 - [SDL2 API by Category](https://wiki.libsdl.org/APIByCategory)
@@ -14,7 +9,7 @@
 
 ## Collision / Jumping
 - Clean up
-- Fix height/growth? Is the m_force >= 0 check good enough?
+- Fix height/growth? Is the m_force >= 0 check good enough? Handling for "ceiling" collisions?
 
 ## Other "game object" / "mobs"
 - Should have sf::Sprite (to draw and for other stuff)
@@ -27,9 +22,4 @@
 ## Animations
 - Add basic animation(s)
 - Should probably have a texture and a set of IntRects for frames?
-
-## Organization
-- Create `res` folder for resources, with sub folders:
-  * `banks` FMOD bank files
-  * `images` Any images
-  * `scripts` Lua scripts
+ 
