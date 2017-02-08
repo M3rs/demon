@@ -12,7 +12,7 @@ int main(int argc, char* args[]) {
   // load lua
   sol::state lua;
   lua.open_libraries(sol::lib::base, sol::lib::package);
-  lua.script_file("settings.lua"); 
+  lua.script_file("/res/scripts/settings.lua"); 
   
   AudioEngine m_audioEngine;
   m_audioEngine.initialize(); //TODO: if audio init error, use null implementation

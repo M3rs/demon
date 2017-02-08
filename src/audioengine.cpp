@@ -7,10 +7,10 @@ AudioEngine::AudioEngine()
 	starcraftBank(nullptr), stringsBank(nullptr), masterBank(nullptr) {}
 
 AudioEngine::~AudioEngine() {
-	unloadBank("player.bank");
-	unloadBank("starcraft.bank");
-	unloadBank("Master bank.strings.bank");
-	unloadBank("Master bank.bank");
+	unloadBank("res/banks/player.bank");
+	unloadBank("res/banks/starcraft.bank");
+	unloadBank("res/banks/Master bank.strings.bank");
+	unloadBank("res/banks/Master bank.bank");
 	
   if (m_studioSystem != NULL)
     m_studioSystem->release();
@@ -35,16 +35,16 @@ bool AudioEngine::initialize()
 	if (!errorcheck(result))
 		return false;
 
-	if (!(loadBank("Master bank.bank")))
+	if (!(loadBank("res/banks/Master bank.bank")))
 		return false;
 
-	if (!(loadBank("Master bank.strings.bank")))
+	if (!(loadBank("res/banks/Master bank.strings.bank")))
 		return false;
 
-	if (!(loadBank("starcraft.bank")))
+	if (!(loadBank("res/banks/starcraft.bank")))
 		return false;
 
-	if (!(loadBank("player.bank")))
+	if (!(loadBank("res/banks/player.bank")))
 		return false;
 
 	return true;

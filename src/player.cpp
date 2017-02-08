@@ -6,7 +6,7 @@ Player::Player(Textures &textures, sol::state &lua)
     : m_textures(textures), m_speed(2), m_isJumping(false), m_lua(lua),
       m_form("normal") {
 
-  m_sprite.setTexture(m_textures.get("garg.gif"));
+  m_sprite.setTexture(m_textures.get("res/images/garg.gif"));
   m_sprite.setTextureRect(sf::IntRect(0, 38, 32, 42));
   // m_sprite.setTextureRect(sf::IntRect(0, 32, 32, 50));
   m_sprite.setPosition(300, 400);
