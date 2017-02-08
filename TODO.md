@@ -4,6 +4,20 @@
 - [Lazy Foo SDL Tutorials](http://lazyfoo.net/tutorials/SDL/index.php)
 - [SDL2 API by Category](https://wiki.libsdl.org/APIByCategory)
 
+## Short Term
+- Correct player to move as before
+- Correct player to transform (swap texture)
+
+Maybe use something like this:
+```cpp
+struct RenderInfo {
+	SDL_Textue* texture;
+	SDL_Rect* source;
+	SDL_Rect* destination; // position
+};
+```
+
+
 ## BUGS
 - moving to the left in normal form causes you to FLYYYY off the world
 
