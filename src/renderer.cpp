@@ -41,12 +41,14 @@ bool Renderer::initialize(sol::state &lua) {
 
 void Renderer::update() {
 
-  // tmp
   SDL_SetRenderDrawColor(renderer, 17, 13, 42, 255);
 
   SDL_RenderClear(renderer);
 
   // draw stuff here
+  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+  SDL_Rect floor {0, 400, 640, 50};
+  SDL_RenderFillRect(renderer, &floor);
   
   SDL_RenderPresent(renderer);
 }
