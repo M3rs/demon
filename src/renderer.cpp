@@ -60,6 +60,9 @@ bool Renderer::initialize(sol::state &lua) {
     printf("error loading garg, %s\n", IMG_GetError());
     return false;
   }
+  //SDL_DisplayFormat(img);
+  SDL_SetColorKey(img, 1, SDL_MapRGB(img->format, 17, 13, 42));
+  
   texture = SDL_CreateTextureFromSurface(renderer, img);
   SDL_FreeSurface(img);
 
@@ -68,12 +71,13 @@ bool Renderer::initialize(sol::state &lua) {
 
 void Renderer::update() {
 
-  SDL_SetRenderDrawColor(renderer, 17, 13, 42, 255);
+  //SDL_SetRenderDrawColor(renderer, 17, 13, 42, 255);
+  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
   SDL_RenderClear(renderer);
 
   // draw stuff here
-  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+  SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
   SDL_Rect floor{0, 400, 640, 50};
   SDL_RenderFillRect(renderer, &floor);
 
