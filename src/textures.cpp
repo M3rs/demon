@@ -5,7 +5,7 @@
 
 Textures::Textures(SDL_Renderer* renderer) : m_renderer(renderer), m_cache(std::map<std::string, const Texture_ptr>()) {}
 
-const SDL_Texture* const &Textures::get(const std::string &filename) {
+const SDL_Texture* const Textures::get(const std::string &filename) {
   auto it = m_cache.find(filename);
   if (it != m_cache.end()) {
     return it->second.get();
