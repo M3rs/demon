@@ -1,6 +1,5 @@
 #include "renderer.hpp"
 
-#include <SDL.h>
 #include <SDL_Image.h>
 #include <sol.hpp>
 #include <stdio.h>
@@ -53,19 +52,6 @@ bool Renderer::initialize(sol::state &lua) {
     return false;
   }
 
-  // tmp
-  SDL_Surface* img;
-  img = IMG_Load("res/images/garg.gif");
-  if (img == NULL) {
-    printf("error loading garg, %s\n", IMG_GetError());
-    return false;
-  }
-  //SDL_DisplayFormat(img);
-  SDL_SetColorKey(img, 1, SDL_MapRGB(img->format, 17, 13, 42));
-  
-  texture = SDL_CreateTextureFromSurface(renderer, img);
-  SDL_FreeSurface(img);
-
   return true;
 }
 
@@ -80,11 +66,16 @@ void Renderer::update() {
   SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
   SDL_Rect floor{0, 400, 640, 50};
   SDL_RenderFillRect(renderer, &floor);
+   
+  //HACK: turned off the draw call here so the BG doesn't draw over the sprite
+  //...effectively reversing the draw order from what appears in main
+  //Will resolve the order of calls properly once a less hacky Renderer registry
+  //is in place
 
-  // tmp
-  SDL_Rect player{0, 38, 32, 42};
-  SDL_Rect position{100, 100, 32, 42};
-  SDL_RenderCopy(renderer, texture, &player, &position);
+  //SDL_RenderPresent(renderer);
+}
 
-  SDL_RenderPresent(renderer);
+SDL_Renderer* Renderer::getRenderer()
+{
+	return renderer;
 }

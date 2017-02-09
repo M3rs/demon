@@ -1,6 +1,8 @@
 #ifndef RENDERER_HPP
 #define RENDERER_HPP
 
+#include <SDL.h>
+
 // fwd decl
 class SDL_Window;
 class SDL_Renderer;
@@ -18,6 +20,7 @@ public:
 
   void update();
   bool initialize(sol::state &lua);
+  SDL_Renderer* getRenderer();
 
 private:
   SDL_Window *window;

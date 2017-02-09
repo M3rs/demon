@@ -5,8 +5,12 @@
 - [SDL2 API by Category](https://wiki.libsdl.org/APIByCategory)
 
 ## Short Term
-- Correct player to move as before
+- Correct player to move as before (probably needs lots of cleanup)
 - Correct player to transform (swap texture)
+- Create Renderer method to return the 'sprite' that Player / entity will use; clean up Renderer ref hack in Player
+- Create a Renderer registry; perform draw calls in proper order
+- Get delta time so movespeed can be in units/sec instead of units/frame
+
 
 Maybe use something like this:
 ```cpp

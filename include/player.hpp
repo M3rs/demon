@@ -5,11 +5,14 @@
 #include "textures.hpp"
 #include <SDL.h>
 #include <stdio.h>
+#include <physicsbody.hpp>
+#include <renderer.hpp>
 
 class Player {
 public:
   Player(Textures& textures, sol::state& lua);
 
+  void initialize(Renderer* renderer);
   void handle_event(SDL_Keycode keycode);
   void update(const Uint8* input);
 
@@ -22,13 +25,19 @@ private:
   //sf::Sprite m_sprite;
   bool m_isJumping;
   //sf::Vector2f m_force;
+  float m_speed;
 
-  int m_speed;
+  PhysicsBody			m_physicsBody;
+  SDL_Rect				playerSprite;
+  SDL_Texture*			texture;
+  SDL_Renderer*			sdlRenderer; //dirty hack until we have a render registry
   
   Textures& m_textures;
   sol::state& m_lua;
 
   std::string m_form;
+
+  
 
   // "events"
   sol::function onJump;

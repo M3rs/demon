@@ -1,17 +1,41 @@
-#include "player.hpp"
-
+#include <player.hpp>
+#include <physicsbody.hpp>
 #include <iostream>
+#include <SDL_image.h>
 
 Player::Player(Textures &textures, sol::state &lua)
-    : m_textures(textures), m_speed(2), m_isJumping(false), m_lua(lua),
+    : m_textures(textures), m_speed(0.05), m_isJumping(false), m_lua(lua),
       m_form("normal") {
 
   //m_sprite.setTexture(m_textures.get("res/images/garg.gif"));
   //m_sprite.setTextureRect(sf::IntRect(0, 38, 32, 42));
   // m_sprite.setTextureRect(sf::IntRect(0, 32, 32, 50));
   //m_sprite.setPosition(300, 400);
+	setup_lua();
+}
 
-  setup_lua();
+void Player::initialize(Renderer* renderer) {
+	
+	sdlRenderer = renderer->getRenderer();
+
+	// HACK: copied temp code from Renderer.initialize()
+	// Need a Renderer method that will return the "sprite" that we can store
+
+	SDL_Surface* img;
+	img = IMG_Load("res/images/garg.gif");
+	if (img == NULL) {
+		printf("error loading garg, %s\n", IMG_GetError());
+	}
+	SDL_SetColorKey(img, 1, SDL_MapRGB(img->format, 17, 13, 42));
+
+	texture = SDL_CreateTextureFromSurface(sdlRenderer, img);
+	SDL_FreeSurface(img);
+
+	playerSprite.x = 0;
+	playerSprite.y = 38;
+	playerSprite.w = 32;
+	playerSprite.h = 42;	
+	m_physicsBody = PhysicsBody(playerSprite);
 }
 
 void Player::setup_lua() {
@@ -63,21 +87,28 @@ void Player::handle_event(SDL_Keycode keycode) {
 
 void Player::update(const Uint8* input) {
   // reset x velocity to 0 (could not and have accel/deccel (more complicated)
-  //m_force.x = 0;
+	m_physicsBody.vel_x = 0;
 
   if (isKeyPressed(input, "A")) {
-    //m_force.x = m_speed * -1;
+	m_physicsBody.vel_x = m_speed * -1.0F;
   } else if (isKeyPressed(input, "D")) {
-    //m_force.x = m_speed;
+	  m_physicsBody.vel_x = m_speed;
   }
 
-  //m_sprite.move(m_force);
   //m_sprite.move(sf::Vector2f(0, 3)); // extra gravity
 
   if (m_isJumping) {
     //m_force.y += 1;
     // m_sprite.move(sf::Vector2f(0, 3)); // extra gravity
   }
+
+  //TODO: Remove Renderer ref hack, 
+  //let these two talk without one containing the other
+
+  m_physicsBody.updateMotion();
+  SDL_Rect dest = m_physicsBody.getRect();
+  SDL_RenderCopy(sdlRenderer, texture, &playerSprite, &dest);
+  SDL_RenderPresent(sdlRenderer);
 
   /*
   if (m_force.y >= 0) {

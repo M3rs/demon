@@ -30,6 +30,7 @@ int main(int argc, char *args[]) {
   Textures tx_cache;
 
   Player player(tx_cache, lua);
+  player.initialize(&m_renderer);
 
   bool quit = false;
   SDL_Event e;
@@ -56,6 +57,8 @@ int main(int argc, char *args[]) {
 
     // draw
     m_renderer.update();
+
+
   }
 
   return 0;
