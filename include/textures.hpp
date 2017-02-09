@@ -3,15 +3,15 @@
 
 #include <map>
 #include <string>
-//#include <SFML/Graphics.hpp>
+#include "sdlhelpers.hpp"
+#include "SDL.h"
 
 class Textures {
 public:
 
-  Textures();
+  Textures(SDL_Renderer* renderer);
 
-  //const sf::Texture& get(const std::string& filename);
-  // Remove method?
+  const SDL_Texture* const get(const std::string& filename);
 
   void loadTexture(const std::string& filename);
 
@@ -19,7 +19,8 @@ public:
 
 private:
 
-  //std::map<std::string, const sf::Texture> m_cache;
+  SDL_Renderer* m_renderer;
+  std::map<std::string, const Texture_ptr> m_cache;
 };
 
 #endif // TEXTURES_HPP

@@ -28,7 +28,7 @@ int main(int argc, char *args[]) {
   // register / initialize w/ lua
   register_fmod(lua, m_audioEngine);
 
-  Textures tx_cache;
+  Textures tx_cache(m_renderer.getRenderer());
 
   Sprite player_sprite {m_renderer.texture , SDL_Rect{0, 38, 32, 42}};
 
