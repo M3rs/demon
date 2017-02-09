@@ -21,11 +21,11 @@ public:
   void update();
   bool initialize(sol::state &lua);
   SDL_Renderer* getRenderer();
+  SDL_Texture *texture;
 
 private:
   SDL_Window *window;
   SDL_Renderer *renderer;
-  SDL_Texture *texture;
 };
 
 #endif // RENDERER_HPP

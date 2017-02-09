@@ -2,10 +2,11 @@
 #include <physicsbody.hpp>
 #include <iostream>
 #include <SDL_image.h>
+#include "sprite.hpp"
 
-Player::Player(Textures &textures, sol::state &lua)
+Player::Player(Textures &textures, sol::state &lua, Sprite* sprite)
     : m_textures(textures), m_speed(0.05), m_isJumping(false), m_lua(lua),
-      m_form("normal") {
+      m_form("normal"), m_sprite(sprite) {
 
   //m_sprite.setTexture(m_textures.get("res/images/garg.gif"));
   //m_sprite.setTextureRect(sf::IntRect(0, 38, 32, 42));
@@ -107,7 +108,9 @@ void Player::update(const Uint8* input) {
 
   m_physicsBody.updateMotion();
   SDL_Rect dest = m_physicsBody.getRect();
-  SDL_RenderCopy(sdlRenderer, texture, &playerSprite, &dest);
+  //SDL_RenderCopy(sdlRenderer, texture, &playerSprite, &dest);
+
+  SDL_RenderCopy(sdlRenderer, m_sprite->texture, &m_sprite->texture_coords, &dest);
   SDL_RenderPresent(sdlRenderer);
 
   /*

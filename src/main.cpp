@@ -4,6 +4,7 @@
 #include "renderer.hpp"
 #include "textures.hpp"
 #include <iostream>
+#include "sprite.hpp"
 
 int main(int argc, char *args[]) {
 
@@ -29,7 +30,9 @@ int main(int argc, char *args[]) {
 
   Textures tx_cache;
 
-  Player player(tx_cache, lua);
+  Sprite player_sprite {m_renderer.texture , SDL_Rect{0, 38, 32, 42}};
+
+  Player player(tx_cache, lua, &player_sprite);
   player.initialize(&m_renderer);
 
   bool quit = false;

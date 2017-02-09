@@ -8,9 +8,11 @@
 #include <physicsbody.hpp>
 #include <renderer.hpp>
 
+struct Sprite;
+
 class Player {
 public:
-  Player(Textures& textures, sol::state& lua);
+  Player(Textures& textures, sol::state& lua, Sprite* sprite);
 
   void initialize(Renderer* renderer);
   void handle_event(SDL_Keycode keycode);
@@ -33,6 +35,7 @@ private:
   SDL_Renderer*			sdlRenderer; //dirty hack until we have a render registry
   
   Textures& m_textures;
+  Sprite* m_sprite;
   sol::state& m_lua;
 
   std::string m_form;

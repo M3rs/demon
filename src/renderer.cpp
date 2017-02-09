@@ -51,6 +51,15 @@ bool Renderer::initialize(sol::state &lua) {
     printf("IMG_Init: %s\n", IMG_GetError());
     return false;
   }
+    SDL_Surface* img;
+	img = IMG_Load("res/images/garg.gif");
+	if (img == NULL) {
+		printf("error loading garg, %s\n", IMG_GetError());
+	}
+	SDL_SetColorKey(img, 1, SDL_MapRGB(img->format, 17, 13, 42));
+
+	texture = SDL_CreateTextureFromSurface(renderer, img);
+	SDL_FreeSurface(img);
 
   return true;
 }
