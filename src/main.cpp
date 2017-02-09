@@ -5,6 +5,7 @@
 #include "textures.hpp"
 #include <iostream>
 #include "sprite.hpp"
+#include "timer.hpp"
 
 int main(int argc, char *args[]) {
 
@@ -35,10 +36,13 @@ int main(int argc, char *args[]) {
   Player player(tx_cache, lua, &player_sprite);
   player.initialize(&m_renderer);
 
+  Timer timer = Timer();
+
   bool quit = false;
   SDL_Event e;
 
   while (!quit) {
+	  timer.restartTimer();
     while (SDL_PollEvent(&e) != 0) {
       // manually X'ing out the window
       if (e.type == SDL_QUIT) {
@@ -60,6 +64,10 @@ int main(int argc, char *args[]) {
 
     // draw
     m_renderer.update();
+
+	timer.stopTimer();
+
+	std::cout << "Frame time was: " << Timer::GetDeltaTime() << std::endl;
 
 
   }
