@@ -71,11 +71,14 @@ void Player::update(const Uint8 *input, double deltaTime) {
 
   supdate(deltaTime);
   
+  /*
+    // moved input to lua
   if (isKeyPressed(input, "A")) {
     m_physicsBody.vel_x = m_speed * -1.0F * deltaTime;
   } else if (isKeyPressed(input, "D")) {
     m_physicsBody.vel_x = m_speed * deltaTime;
   }
+  */
 
   // m_sprite.move(sf::Vector2f(0, 3)); // extra gravity
 
@@ -84,6 +87,8 @@ void Player::update(const Uint8 *input, double deltaTime) {
     // m_sprite.move(sf::Vector2f(0, 3)); // extra gravity
   }
 
+  m_physicsBody.vel_x = m_lua["player"]["velx"];
+  m_physicsBody.vel_y = m_lua["player"]["vely"];
   m_physicsBody.updateMotion();
 
   /*

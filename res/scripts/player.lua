@@ -2,15 +2,23 @@
 -- functions for player class
 
 -- player table
-player = {}
+player = {
+   speed = 150,
+   velx = 0,
+   vely = 0
+}
 
 function player.update(dt)
 
+   player.velx = 0
+
    if kbd.isPressed("A") then
-      print("left "..dt)
+      player.velx = player.speed * -1 * dt
    elseif kbd.isPressed("D") then
-      print("right")
+      player.velx = player.speed * dt
    end
+
+   
    
 end
 
