@@ -126,9 +126,9 @@ void Player::set_texture_and_offset(int x, int y, int w, int h) {
   // shortcut for setTexture and moveSprite
   // adjusts so as to keep bottom plane consistent
 
-  auto oldRect = m_sprite->texture_coords;
+  auto old_height = m_sprite->texture_coords.h;
   set_texture(x, y, w, h);
-  m_sprite->texture_coords.y += (oldRect.h - h);
+  m_sprite->texture_coords.y += (old_height - h);
   // m_sprite.move(0, oldRect.height - h);
 }
 

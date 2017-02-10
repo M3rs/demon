@@ -14,6 +14,7 @@
 - Transforming into "big" form causes texture to be "off"
   - NB: "Jumping" in big form fixes texture?
 - Tranforming from big -> little causes blank texture
+  - Jumping fixes this (sort of)
 
 ## Collision / Jumping
 - re-implement
