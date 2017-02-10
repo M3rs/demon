@@ -4,6 +4,7 @@
 #include <SDL_rect.h>
 #include <vector>
 #include <map>
+#include <SDL.h>
 
 //fwd decl -- am I doing it right?
 struct Sprite;
@@ -28,7 +29,7 @@ public:
 private:
 	//can separate collision validity by placing entities on different layers,
 	//or having an entity check against specific layers while excluding others
-	static std::vector<SDL_Rect*> CollisionLayerFG;
+	static std::vector<SDL_Rect> CollisionLayerFG;
 };
 
 #endif //PHYSICSBODY_HPP

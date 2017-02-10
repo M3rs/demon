@@ -13,10 +13,10 @@ void PhysicsBody::updateMotion(Sprite* sprite) {
 	sprite->world_coords.x += vel_x;
 	sprite->world_coords.y += vel_y;
 
-	for (const SDL_Rect* it : CollisionLayerFG) {
-		const SDL_Rect* destination = sprite->&world_coords;
-		SDL_Rect* result;
-		if (SDL_IntersectRect(destination, it, result)) {
+	for (const SDL_Rect it : CollisionLayerFG) {
+		const SDL_Rect destination = sprite->world_coords;
+		SDL_Rect result;
+		if (SDL_IntersectRect(&destination, &it, &result)) {
 			//collision! undo attempted movement
 			//or move to nearest legal position using 'result'
 			sprite->world_coords.x -= vel_x;
