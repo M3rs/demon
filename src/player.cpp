@@ -8,8 +8,13 @@ Player::Player(Textures &textures, sol::state &lua, Sprite *sprite)
     : m_textures(textures), m_speed(150), m_isJumping(false), m_lua(lua),
       m_form("normal"), m_sprite(sprite) {
 
+  // now we can change the player texture, yay!!
+  m_sprite->texture = textures.get("res/images/garg.gif");
+  m_sprite->texture_coords = SDL_Rect{0, 38, 32, 42};
+  m_sprite->world_coords = SDL_Rect{100, 100, 32, 42};
+
   m_physicsBody = PhysicsBody(&m_sprite->world_coords);
-  
+
   setup_lua();
 }
 
@@ -48,11 +53,10 @@ void Player::handle_event(SDL_Keycode keycode) {
   case SDLK_t:
     if (m_form == "normal") {
       m_form = "big";
-      set_events();
     } else if (m_form == "big") {
       m_form = "normal";
-      set_events();
     }
+    set_events();
     m_lua["player"][m_form]["onTransform"]();
     break;
   default:
@@ -100,14 +104,18 @@ void Player::update(const Uint8 *input, double deltaTime) {
   */
 }
 
-// const sf::Sprite &Player::sprite() const { return m_sprite; }
-
 void Player::set_texture(int x, int y, int w, int h) {
-  // m_sprite.setTextureRect(sf::IntRect(x, y, w, h));
+  m_sprite->texture_coords.x = x;
+  m_sprite->texture_coords.y = y;
+  m_sprite->texture_coords.w = w;
+  m_sprite->texture_coords.h = h;
+
+  m_sprite->world_coords.w = w;
+  m_sprite->world_coords.h = h;
 }
 
 void Player::change_texture(const std::string &txname) {
-  // m_sprite.setTexture(m_textures.get(txname));
+  m_sprite->texture = m_textures.get(txname);
 }
 
 void Player::move_sprite(float x, float y) {
@@ -118,9 +126,9 @@ void Player::set_texture_and_offset(int x, int y, int w, int h) {
   // shortcut for setTexture and moveSprite
   // adjusts so as to keep bottom plane consistent
 
-  // sf::IntRect oldRect;
-  // oldRect = m_sprite.getTextureRect();
-  // m_sprite.setTextureRect(sf::IntRect(x, y, w, h));
+  auto oldRect = m_sprite->texture_coords;
+  set_texture(x, y, w, h);
+  m_sprite->texture_coords.y += (oldRect.h - h);
   // m_sprite.move(0, oldRect.height - h);
 }
 

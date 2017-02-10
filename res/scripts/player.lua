@@ -11,7 +11,7 @@ player.normal = {
 
 function player.normal.onTransform()
    print("transforming to normal!")
-   player.change_texture("garg.gif")
+   player.change_texture("res/images/garg.gif")
    -- 38, 80
    player.set_texture_and_offset(0, 38, 32, 42)
 end
@@ -34,7 +34,7 @@ player.big = {
 
 function player.big.onTransform()
    print("transforming to big!")
-   player.change_texture("big.gif")
+   player.change_texture("res/images/big.gif")
    player.set_texture_and_offset(12, 140, 98, 88)
 end
 

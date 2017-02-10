@@ -29,11 +29,10 @@ int main(int argc, char *args[]) {
   register_fmod(lua, m_audioEngine);
 
   Textures tx_cache(m_renderer.getRenderer());
+  tx_cache.loadTexture("res/images/garg.gif");
+  tx_cache.loadTexture("res/images/big.gif");
 
   Sprite* player_sprite = m_renderer.add_sprite("player");
-  player_sprite->texture = tx_cache.get("res/images/garg.gif");
-  player_sprite->texture_coords = SDL_Rect{0, 38, 32, 42};
-  player_sprite->world_coords = SDL_Rect{100, 100, 32, 42};
 
   Player player(tx_cache, lua, player_sprite);
 
