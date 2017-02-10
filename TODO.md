@@ -11,10 +11,7 @@
 - Done? Get delta time so movespeed can be in units/sec instead of units/frame
 
 ## BUGS
-- Transforming into "big" form causes texture to be "off"
-  - NB: "Jumping" in big form fixes texture?
-- Tranforming from big -> little causes blank texture
-  - Jumping fixes this (sort of)
+- TBD (they're there, let's not kid ourselves)
 
 ## Collision / Jumping
 - re-implement

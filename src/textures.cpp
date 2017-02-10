@@ -9,6 +9,7 @@ SDL_Texture* Textures::get(const std::string &filename) {
   auto it = m_cache.find(filename);
   if (it != m_cache.end()) {
     //return it->second.get();
+    std::cout << "get texture: " << filename << std::endl;
     return it->second.get();
   }
 

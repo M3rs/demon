@@ -81,9 +81,6 @@ void Player::update(const Uint8 *input, double deltaTime) {
     // m_sprite.move(sf::Vector2f(0, 3)); // extra gravity
   }
 
-  // TODO: Remove Renderer ref hack,
-  // let these two talk without one containing the other
-
   m_physicsBody.updateMotion();
 
   /*
@@ -128,8 +125,7 @@ void Player::set_texture_and_offset(int x, int y, int w, int h) {
 
   auto old_height = m_sprite->texture_coords.h;
   set_texture(x, y, w, h);
-  m_sprite->texture_coords.y += (old_height - h);
-  // m_sprite.move(0, oldRect.height - h);
+  m_sprite->world_coords.y += (old_height - h);
 }
 
 bool Player::isKeyPressed(const Uint8 *input, const char *keyName) {

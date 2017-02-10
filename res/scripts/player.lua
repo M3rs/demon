@@ -17,7 +17,7 @@ function player.normal.onTransform()
 end
 
 function player.normal.onJump()
-   player.set_texture_and_offset(48, 110, 30, 58)
+   player.set_texture_and_offset(48, 110, 28, 58)
    fmod.playOneShot("event:/player/jump")
 end
 
