@@ -21,14 +21,14 @@ public:
 	//float mass; //maybe later
 
 	//modify sprite's worldspace according to vel
-	void updateMotion(Sprite* m_sprite); 
+	void updateMotion(Sprite* m_sprite);
 
 	static void RenderLayerToCollisionBounds(std::map<std::string, Sprite> renderLayer);
 
 private:
 	//can separate collision validity by placing entities on different layers,
 	//or having an entity check against specific layers while excluding others
-	static std::vector<SDL_Rect> CollisionLayerFG;
+	static std::vector<SDL_Rect*> CollisionLayerFG;
 };
 
 #endif //PHYSICSBODY_HPP
