@@ -16,7 +16,7 @@ public:
 
   void initialize(Renderer* renderer);
   void handle_event(SDL_Keycode keycode);
-  void update(const Uint8* input);
+  void update(const Uint8* input, double deltaTime);
 
   //const sf::Sprite& sprite() const;
 

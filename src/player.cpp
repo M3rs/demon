@@ -5,7 +5,7 @@
 #include "sprite.hpp"
 
 Player::Player(Textures &textures, sol::state &lua, Sprite* sprite)
-    : m_textures(textures), m_speed(0.05), m_isJumping(false), m_lua(lua),
+    : m_textures(textures), m_speed(150), m_isJumping(false), m_lua(lua),
       m_form("normal"), m_sprite(sprite) {
 
   //m_sprite.setTexture(m_textures.get("res/images/garg.gif"));
@@ -86,14 +86,14 @@ void Player::handle_event(SDL_Keycode keycode) {
     }
 }
 
-void Player::update(const Uint8* input) {
+void Player::update(const Uint8* input, double deltaTime) {
   // reset x velocity to 0 (could not and have accel/deccel (more complicated)
 	m_physicsBody.vel_x = 0;
 
   if (isKeyPressed(input, "A")) {
-	m_physicsBody.vel_x = m_speed * -1.0F;
+	m_physicsBody.vel_x = m_speed * -1.0F * deltaTime;
   } else if (isKeyPressed(input, "D")) {
-	  m_physicsBody.vel_x = m_speed;
+	  m_physicsBody.vel_x = m_speed * deltaTime;
   }
 
   //m_sprite.move(sf::Vector2f(0, 3)); // extra gravity

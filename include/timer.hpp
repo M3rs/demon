@@ -1,11 +1,13 @@
 #ifndef TIMER_HPP
 #define TIMER_HPP
 
+#include <SDL.h>
+
 class Timer {
 public:
 	Timer();
 
-	//returns time in ms
+	//returns time in seconds
 	const double getDeltaTime();
 	void restartTimer();
 	void stopTimer();

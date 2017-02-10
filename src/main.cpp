@@ -57,7 +57,7 @@ int main(int argc, char *args[]) {
     }
     // handle continuous inputs
     keyboardState = SDL_GetKeyboardState(NULL);
-    player.update(keyboardState);
+    player.update(keyboardState, timer.getDeltaTime());
 
     // update subsystems
     m_audioEngine.update();
@@ -67,8 +67,7 @@ int main(int argc, char *args[]) {
 
 	timer.stopTimer();
 
-	std::cout << "Frame time was: " << Timer::GetDeltaTime() << std::endl;
-
+	//std::cout << "\rFrame time was: " << timer.getDeltaTime();
 
   }
 

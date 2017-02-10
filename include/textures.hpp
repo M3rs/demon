@@ -11,7 +11,7 @@ public:
 
   Textures(SDL_Renderer* renderer);
 
-  const SDL_Texture* const get(const std::string& filename);
+  SDL_Texture* get(const std::string& filename);
 
   void loadTexture(const std::string& filename);
 
