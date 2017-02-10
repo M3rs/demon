@@ -2,10 +2,10 @@
 #include "luahelpers.hpp"
 #include "player.hpp"
 #include "renderer.hpp"
-#include "textures.hpp"
-#include <iostream>
 #include "sprite.hpp"
+#include "textures.hpp"
 #include "timer.hpp"
+#include <iostream>
 
 int main(int argc, char *args[]) {
 
@@ -15,8 +15,7 @@ int main(int argc, char *args[]) {
   lua.script_file("res/scripts/settings.lua");
 
   AudioEngine m_audioEngine;
-  m_audioEngine
-      .initialize(); // TODO: if audio init error, use null implementation
+  m_audioEngine.initialize(); // TODO: if audio init error, use null implementation
 
   Renderer m_renderer;
   if (!(m_renderer.initialize(lua))) {
@@ -31,10 +30,12 @@ int main(int argc, char *args[]) {
 
   Textures tx_cache(m_renderer.getRenderer());
 
-  Sprite player_sprite {m_renderer.texture , SDL_Rect{0, 38, 32, 42}};
+  Sprite* player_sprite = m_renderer.add_sprite("player");
+  player_sprite->texture = tx_cache.get("res/images/garg.gif");
+  player_sprite->texture_coords = SDL_Rect{0, 38, 32, 42};
+  player_sprite->world_coords = SDL_Rect{100, 100, 32, 42};
 
-  Player player(tx_cache, lua, &player_sprite);
-  player.initialize(&m_renderer);
+  Player player(tx_cache, lua, player_sprite);
 
   Timer timer = Timer();
 
@@ -42,7 +43,7 @@ int main(int argc, char *args[]) {
   SDL_Event e;
 
   while (!quit) {
-	  timer.restartTimer();
+    timer.restartTimer();
     while (SDL_PollEvent(&e) != 0) {
       // manually X'ing out the window
       if (e.type == SDL_QUIT) {
@@ -65,10 +66,9 @@ int main(int argc, char *args[]) {
     // draw
     m_renderer.update();
 
-	timer.stopTimer();
+    timer.stopTimer();
 
-	//std::cout << "\rFrame time was: " << timer.getDeltaTime();
-
+    // std::cout << "\rFrame time was: " << timer.getDeltaTime();
   }
 
   return 0;

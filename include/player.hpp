@@ -14,17 +14,13 @@ class Player {
 public:
   Player(Textures& textures, sol::state& lua, Sprite* sprite);
 
-  void initialize(Renderer* renderer);
   void handle_event(SDL_Keycode keycode);
   void update(const Uint8* input, double deltaTime);
-
-  //const sf::Sprite& sprite() const;
 
   bool isKeyPressed(const Uint8 *keyboardState, char* keyName);
   
 private:
 
-  //sf::Sprite m_sprite;
   bool m_isJumping;
   //sf::Vector2f m_force;
   float m_speed;

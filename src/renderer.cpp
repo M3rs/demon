@@ -4,14 +4,13 @@
 #include <sol.hpp>
 #include <stdio.h>
 #include <string>
+#include <iostream>
 
-Renderer::Renderer() : window(NULL), renderer(NULL) {}
+Renderer::Renderer() : window(NULL), renderer(NULL),
+		       m_drawlist(std::map<std::string, Sprite>{}) {}
 
 Renderer::~Renderer() {
 
-  //tmp
-  SDL_DestroyTexture(texture);
-    
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
 
@@ -36,8 +35,8 @@ bool Renderer::initialize(sol::state &lua) {
     return false;
   }
 
-  renderer = SDL_CreateRenderer(window, -1, 
-			 SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED |
+                                                SDL_RENDERER_PRESENTVSYNC);
   if (renderer == NULL) {
     printf("SDL Window could not be created! SDL_Error %s\n", SDL_GetError());
     return false;
@@ -52,40 +51,49 @@ bool Renderer::initialize(sol::state &lua) {
     printf("IMG_Init: %s\n", IMG_GetError());
     return false;
   }
-    SDL_Surface* img;
-	img = IMG_Load("res/images/garg.gif");
-	if (img == NULL) {
-		printf("error loading garg, %s\n", IMG_GetError());
-	}
-	SDL_SetColorKey(img, 1, SDL_MapRGB(img->format, 17, 13, 42));
-
-	texture = SDL_CreateTextureFromSurface(renderer, img);
-	SDL_FreeSurface(img);
 
   return true;
 }
 
 void Renderer::update() {
 
-  //SDL_SetRenderDrawColor(renderer, 17, 13, 42, 255);
   SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
   SDL_RenderClear(renderer);
 
   // draw stuff here
+
+  // TODO(ajm): add method o create this texture
   SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
   SDL_Rect floor{0, 400, 640, 50};
   SDL_RenderFillRect(renderer, &floor);
-   
-  //HACK: turned off the draw call here so the BG doesn't draw over the sprite
-  //...effectively reversing the draw order from what appears in main
-  //Will resolve the order of calls properly once a less hacky Renderer registry
-  //is in place
 
-  //SDL_RenderPresent(renderer);
+  // HACK: turned off the draw call here so the BG doesn't draw over the sprite
+  //...effectively reversing the draw order from what appears in main
+  // Will resolve the order of calls properly once a less hacky Renderer
+  // registry
+  // is in place
+  for (auto& draw : m_drawlist) {
+    auto& sprite = draw.second;
+    SDL_RenderCopy(renderer, sprite.texture, &sprite.texture_coords, &sprite.world_coords);
+
+  }
+
+   SDL_RenderPresent(renderer);
 }
 
-SDL_Renderer* Renderer::getRenderer()
+SDL_Renderer *Renderer::getRenderer() { return renderer; }
+
+
+Sprite* Renderer::add_sprite(const std::string& key)
 {
-	return renderer;
+  auto it = m_drawlist.find(key);
+  if (it != m_drawlist.end()) {
+    std::cout << "Drawlist already contains " << key << std::endl;
+    return &m_drawlist[key];
+  }
+
+  m_drawlist.emplace(key, Sprite());
+
+  return &m_drawlist[key];
 }
