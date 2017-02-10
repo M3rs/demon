@@ -41,6 +41,7 @@ private:
   // "events"
   sol::function onJump;
   sol::function onLand;
+  sol::function supdate;
 
   // lua funcs
   void setup_lua();

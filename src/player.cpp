@@ -34,6 +34,7 @@ void Player::setup_lua() {
 void Player::set_events() {
   onJump = m_lua["player"][m_form]["onJump"];
   onLand = m_lua["player"][m_form]["onLand"];
+  supdate = m_lua["player"]["update"];
 }
 
 void Player::handle_event(SDL_Keycode keycode) {
@@ -68,6 +69,8 @@ void Player::update(const Uint8 *input, double deltaTime) {
   // reset x velocity to 0 (could not and have accel/deccel (more complicated)
   m_physicsBody.vel_x = 0;
 
+  supdate(deltaTime);
+  
   if (isKeyPressed(input, "A")) {
     m_physicsBody.vel_x = m_speed * -1.0F * deltaTime;
   } else if (isKeyPressed(input, "D")) {

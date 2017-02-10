@@ -4,6 +4,16 @@
 -- player table
 player = {}
 
+function player.update(dt)
+
+   if kbd.isPressed("A") then
+      print("left "..dt)
+   elseif kbd.isPressed("D") then
+      print("right")
+   end
+   
+end
+
 -- player normal form
 player.normal = {
    jump = -20

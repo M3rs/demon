@@ -27,6 +27,7 @@ int main(int argc, char *args[]) {
 
   // register / initialize w/ lua
   register_fmod(lua, m_audioEngine);
+  register_input(lua);
 
   Textures tx_cache(m_renderer.getRenderer());
   tx_cache.loadTexture("res/images/garg.gif");

@@ -3,6 +3,14 @@
 #include "audioengine.hpp"
 #include <sol.hpp>
 
+namespace {
+  bool KeyPressed(const std::string& key_name)
+  {
+    auto input = SDL_GetKeyboardState(NULL);
+    return input[SDL_GetScancodeFromName(key_name.c_str())];
+  }
+}
+
 void register_fmod(sol::state &lua, AudioEngine &audio) {
   sol::table fmod = lua.create_table("fmod");
   fmod.set_function(
@@ -13,3 +21,8 @@ void register_fmod(sol::state &lua, AudioEngine &audio) {
                     &AudioEngine::playOneShotWithParameter, &audio);
 }
 
+void register_input(sol::state& lua)
+{
+  sol::table key = lua.create_table("kbd");
+  key.set_function("isPressed", &KeyPressed);
+}
