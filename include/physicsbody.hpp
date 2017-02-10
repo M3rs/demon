@@ -3,16 +3,13 @@
 
 #include <SDL_rect.h>
 
+//fwd decl -- am I doing it right?
+struct Sprite;
+
 class PhysicsBody {
 public:
 	PhysicsBody();
-	PhysicsBody(SDL_Rect* rect_);
-	PhysicsBody(SDL_Rect* rect_, float initPosX, float initPosY);
 	~PhysicsBody();
-
-	//worldspace coordinates; origin is upper-left corner
-	float pos_x;
-	float pos_y;
 
 	//motion per update? per second?
 	float vel_x;
@@ -21,12 +18,8 @@ public:
 	bool airborne;
 	//float mass; //maybe later
 
-	void updateMotion();
-
-private:
-	//entity size and spritesheet location
-	SDL_Rect* rect;
-
+	//modify sprite's worldspace according to vel
+	void updateMotion(Sprite* m_sprite); 
 };
 
 #endif //PHYSICSBODY_HPP

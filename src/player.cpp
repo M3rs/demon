@@ -13,7 +13,7 @@ Player::Player(Textures &textures, sol::state &lua, Sprite *sprite)
   m_sprite->texture_coords = SDL_Rect{0, 38, 32, 42};
   m_sprite->world_coords = SDL_Rect{100, 100, 32, 42};
 
-  m_physicsBody = PhysicsBody(&m_sprite->world_coords);
+  m_physicsBody = PhysicsBody();
 
   setup_lua();
 }
@@ -89,7 +89,7 @@ void Player::update(const Uint8 *input, double deltaTime) {
 
   m_physicsBody.vel_x = m_lua["player"]["velx"];
   m_physicsBody.vel_y = m_lua["player"]["vely"];
-  m_physicsBody.updateMotion();
+  m_physicsBody.updateMotion(m_sprite);
 
   /*
   if (m_force.y >= 0) {

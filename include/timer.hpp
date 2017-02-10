@@ -12,12 +12,10 @@ public:
 	void restartTimer();
 	void stopTimer();
 
+private:
 	Uint64 then;
 	Uint64 now;
 	double deltaTime;
-
-private:
-
 	//std::chrono::high_resolution_clock Clock;
 
 };
