@@ -35,7 +35,12 @@ int main(int argc, char *args[]) {
 
   Sprite* player_sprite = m_renderer.add_sprite("player");
 
-  Player player(tx_cache, lua, player_sprite);
+  Player player(tx_cache, "res/images/garg.gif", lua, player_sprite);
+
+  Sprite* floor_sprite = m_renderer.add_sprite("floor");
+
+  //obviously a hack, but our floor 'player' will not input update
+  Player floor(tx_cache, "res/images/dungeonfloor.jpg", lua, floor_sprite);
 
   Timer timer = Timer();
 

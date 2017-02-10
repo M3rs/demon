@@ -12,7 +12,7 @@ struct Sprite;
 
 class Player {
 public:
-  Player(Textures& textures, sol::state& lua, Sprite* sprite);
+  Player(Textures& textures, std::string textureFile, sol::state& lua, Sprite* sprite);
 
   void handle_event(SDL_Keycode keycode);
   void update(const Uint8* input, double deltaTime);

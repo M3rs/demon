@@ -4,19 +4,26 @@
 #include <physicsbody.hpp>
 #include <player.hpp>
 
-Player::Player(Textures &textures, sol::state &lua, Sprite *sprite)
-    : m_textures(textures), m_speed(150), m_isJumping(false), m_lua(lua),
-      m_form("normal"), m_sprite(sprite) {
+Player::Player(Textures &textures, std::string textureFile, 
+	sol::state &lua, Sprite *sprite)
+	: m_textures(textures), m_speed(150), m_isJumping(false), m_lua(lua),
+	m_form("normal"), m_sprite(sprite) {
 
-  // now we can change the player texture, yay!!
-  m_sprite->texture = textures.get("res/images/garg.gif");
-  m_sprite->texture_coords = SDL_Rect{0, 38, 32, 42};
-  m_sprite->world_coords = SDL_Rect{100, 100, 32, 42};
+	m_sprite->texture = textures.get(textureFile);
 
-  m_physicsBody = PhysicsBody();
+	if (textureFile == "res/images/garg.gif") {		
+		m_sprite->texture_coords = SDL_Rect{ 0, 38, 32, 42 };
+		m_sprite->world_coords = SDL_Rect{ 100, 350, 32, 42 };
+		setup_lua();
+	}
+	else if (textureFile == "res/images/dungeonfloor.jpg") {
+		m_sprite->texture_coords = SDL_Rect{ 0, 0, 640, 80 };
+		m_sprite->world_coords = SDL_Rect{ 0, 400, 640, 80 };
+	}
 
-  setup_lua();
+	m_physicsBody = PhysicsBody();	
 }
+
 
 void Player::setup_lua() {
   m_lua.script_file("res/scripts/player.lua");
@@ -44,6 +51,8 @@ void Player::handle_event(SDL_Keycode keycode) {
     m_isJumping = true;
     // m_force = sf::Vector2f(0, -14);
     // m_force = sf::Vector2f(0, m_lua["player"][m_form]["jump"]);
+	m_physicsBody.vel_y = m_lua["player"][m_form]["jump"];
+	m_physicsBody.airborne = true;
     onJump();
     break;
   case SDLK_r:
@@ -88,7 +97,7 @@ void Player::update(const Uint8 *input, double deltaTime) {
   }
 
   m_physicsBody.vel_x = m_lua["player"]["velx"];
-  m_physicsBody.vel_y = m_lua["player"]["vely"];
+  //m_physicsBody.vel_y = m_lua["player"]["vely"];
   m_physicsBody.updateMotion(m_sprite);
 
   /*

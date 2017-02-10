@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string>
 #include <iostream>
+#include "physicsbody.hpp"
 
 Renderer::Renderer() : window(NULL), renderer(NULL),
 		       m_drawlist(std::map<std::string, Sprite>{}) {}
@@ -65,19 +66,14 @@ void Renderer::update() {
 
   // TODO(ajm): add method o create this texture
   SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-  SDL_Rect floor{0, 400, 640, 50};
-  SDL_RenderFillRect(renderer, &floor);
 
-  // HACK: turned off the draw call here so the BG doesn't draw over the sprite
-  //...effectively reversing the draw order from what appears in main
-  // Will resolve the order of calls properly once a less hacky Renderer
-  // registry
-  // is in place
   for (auto& draw : m_drawlist) {
     auto& sprite = draw.second;
     SDL_RenderCopy(renderer, sprite.texture, &sprite.texture_coords, &sprite.world_coords);
-
   }
+
+  //report draw-valid objects to collision layer
+  PhysicsBody::RenderLayerToCollisionBounds(m_drawlist);
 
    SDL_RenderPresent(renderer);
 }
