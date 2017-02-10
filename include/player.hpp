@@ -17,7 +17,7 @@ public:
   void handle_event(SDL_Keycode keycode);
   void update(const Uint8* input, double deltaTime);
 
-  bool isKeyPressed(const Uint8 *keyboardState, char* keyName);
+  bool isKeyPressed(const Uint8 *keyboardState, const char* keyName);
   
 private:
 
