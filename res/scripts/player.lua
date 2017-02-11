@@ -3,22 +3,64 @@
 
 -- player table
 player = {
+
+   sprite = {
+      texture_file = "res/images/garg.gif",
+      texture_coords = {
+	 x = 0, y = 38, w = 32, h = 42
+      },
+      world_coords = {
+	 x = 100, y = 350, w = 32, h = 42
+      }
+   },
+   
+   -- physics
    speed = 150,
    velx = 0,
-   vely = 0
+   vely = 0,
+
+   form = "normal",
+
+   keys = {
+      space = false,
+      t = false
+   }
 }
 
 function player.update(dt)
 
-   player.velx = 0
+   -- space "released"
+   if not kbd.isPressed("space") and player.keys.space then
+      player.apply_jump(player[player.form].jump)
+      player[player.form].onJump()
+      player.keys.space = false
+   end
+   
+   -- t "released"
+   if not kbd.isPressed("t") and player.keys.t then
+      if player.form == "normal" then
+	 player.form = "big"
+      elseif player.form == "big" then
+	 player.form = "normal"
+      end
+      player[player.form].onTransform()
+      player.keys.t = false
+   end
 
+   player.velx = 0
+   
    if kbd.isPressed("A") then
       player.velx = player.speed * -1 * dt
    elseif kbd.isPressed("D") then
       player.velx = player.speed * dt
    end
 
-   
+   -- save some key "press" to check above for "release"
+   for k,v in pairs(player.keys) do
+      if kbd.isPressed(k) then
+	 player.keys[k] = true
+      end
+   end
    
 end
 

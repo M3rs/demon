@@ -4,70 +4,55 @@
 #include <physicsbody.hpp>
 #include <player.hpp>
 
-Player::Player(Textures &textures, std::string textureFile, 
-	sol::state &lua, Sprite *sprite)
-	: m_textures(textures), m_speed(150), m_isJumping(false), m_lua(lua),
-	m_form("normal"), m_sprite(sprite) {
+// TODO(ajm): move this somewhere else
+namespace {
+SDL_Rect getRectFromTable(sol::table t) {
+  SDL_Rect r;
+  r.x = t["x"];
+  r.y = t["y"];
+  r.w = t["w"];
+  r.h = t["h"];
 
-	m_sprite->texture = textures.get(textureFile);
-
-	if (textureFile == "res/images/garg.gif") {		
-		m_sprite->texture_coords = SDL_Rect{ 0, 38, 32, 42 };
-		m_sprite->world_coords = SDL_Rect{ 100, 350, 32, 42 };
-		setup_lua();
-	}
-	else if (textureFile == "res/images/dungeonfloor.jpg") {
-		m_sprite->texture_coords = SDL_Rect{ 0, 0, 640, 80 };
-		m_sprite->world_coords = SDL_Rect{ 0, 400, 640, 80 };
-	}
-
-	m_physicsBody = PhysicsBody();	
+  return r;
+}
 }
 
+Player::Player(Textures &textures, sol::state &lua, std::string luafile,
+               std::string luatable, Sprite *sprite)
+    : m_textures(textures), m_speed(150), m_isJumping(false), m_lua(lua),
+      m_form("normal"), m_sprite(sprite), script_file(luafile),
+      table(luatable) {
+
+  setup_lua();
+
+  sol::table sprite_t = m_lua[table]["sprite"];
+  m_sprite->texture = textures.get(sprite_t["texture_file"]);
+  m_sprite->texture_coords = getRectFromTable(sprite_t["texture_coords"]);
+  m_sprite->world_coords = getRectFromTable(sprite_t["world_coords"]);
+
+  m_physicsBody = PhysicsBody();
+}
 
 void Player::setup_lua() {
-  m_lua.script_file("res/scripts/player.lua");
-  // test
-  set_events();
+  m_lua.script_file(script_file);
 
-  sol::table player_t = m_lua["player"];
+  sol::table player_t = m_lua[table];
+  supdate = player_t["update"];
   player_t.set_function("set_texture_rect", &Player::set_texture, this);
   player_t.set_function("change_texture", &Player::change_texture, this);
   player_t.set_function("move_sprite", &Player::move_sprite, this);
   player_t.set_function("set_texture_and_offset",
                         &Player::set_texture_and_offset, this);
-}
-
-void Player::set_events() {
-  onJump = m_lua["player"][m_form]["onJump"];
-  onLand = m_lua["player"][m_form]["onLand"];
-  supdate = m_lua["player"]["update"];
+  player_t.set_function("apply_jump", &Player::apply_jump, this);
 }
 
 void Player::handle_event(SDL_Keycode keycode) {
 
   switch (keycode) {
-  case SDLK_SPACE:
-    m_isJumping = true;
-    // m_force = sf::Vector2f(0, -14);
-    // m_force = sf::Vector2f(0, m_lua["player"][m_form]["jump"]);
-	m_physicsBody.vel_y = m_lua["player"][m_form]["jump"];
-	m_physicsBody.airborne = true;
-    onJump();
-    break;
   case SDLK_r:
     // reload player script
     std::cout << "Reloading player.lua\n";
     setup_lua();
-    break;
-  case SDLK_t:
-    if (m_form == "normal") {
-      m_form = "big";
-    } else if (m_form == "big") {
-      m_form = "normal";
-    }
-    set_events();
-    m_lua["player"][m_form]["onTransform"]();
     break;
   default:
     break;
@@ -79,25 +64,15 @@ void Player::update(const Uint8 *input, double deltaTime) {
   m_physicsBody.vel_x = 0;
 
   supdate(deltaTime);
-  
-  /*
-    // moved input to lua
-  if (isKeyPressed(input, "A")) {
-    m_physicsBody.vel_x = m_speed * -1.0F * deltaTime;
-  } else if (isKeyPressed(input, "D")) {
-    m_physicsBody.vel_x = m_speed * deltaTime;
-  }
-  */
-
-  // m_sprite.move(sf::Vector2f(0, 3)); // extra gravity
 
   if (m_isJumping) {
     // m_force.y += 1;
     // m_sprite.move(sf::Vector2f(0, 3)); // extra gravity
   }
 
-  m_physicsBody.vel_x = m_lua["player"]["velx"];
-  //m_physicsBody.vel_y = m_lua["player"]["vely"];
+  // hack: player specific
+  m_physicsBody.vel_x = m_lua[table]["velx"];
+  // m_physicsBody.vel_y = m_lua["player"]["vely"];
   m_physicsBody.updateMotion(m_sprite);
 
   /*
@@ -145,6 +120,9 @@ void Player::set_texture_and_offset(int x, int y, int w, int h) {
   m_sprite->world_coords.y += (old_height - h);
 }
 
-bool Player::isKeyPressed(const Uint8 *input, const char *keyName) {
-  return input[SDL_GetScancodeFromName(keyName)] == 1;
+void Player::apply_jump(int force)
+{
+  m_isJumping = true; // old?
+  m_physicsBody.vel_y = force;
+  m_physicsBody.airborne = true;
 }

@@ -30,10 +30,12 @@ void PhysicsBody::updateMotion(Sprite* sprite) {
 }
 
 void PhysicsBody::RenderLayerToCollisionBounds(std::map<std::string, Sprite> renderLayer) {
+  /*
 	for (auto& it : renderLayer) {
 		auto& rect = it.second.world_coords;
 		PhysicsBody::CollisionLayerFG.push_back(rect);
 	}
+  */
 }
 
 
