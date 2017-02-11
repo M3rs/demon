@@ -6,9 +6,8 @@
 
 ## Short Term
 - Correct player to move as before (probably needs lots of cleanup)
-- (in progress) Correct player to transform (swap texture)
+- Player transform polish -- add sounds, change oneshot w/ parameter to starting a mixer snapshot when transformed
 - perform draw calls in proper order (right now map is not really ordered)
-- Done? Get delta time so movespeed can be in units/sec instead of units/frame
 
 ## BUGS
 - TBD (they're there, let's not kid ourselves)

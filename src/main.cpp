@@ -42,6 +42,10 @@ int main(int argc, char *args[]) {
   //obviously a hack, but our floor 'player' will not input update
   Player floor(tx_cache, lua, "res/scripts/floor.lua", "floor", floor_sprite);
 
+  Sprite* box_sprite = m_renderer.add_sprite("box");
+
+  Player box(tx_cache, lua, "res/scripts/box.lua", "box", box_sprite);
+
   Timer timer = Timer();
 
   bool quit = false;
