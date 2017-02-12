@@ -74,6 +74,7 @@ function player.normal.onTransform()
    player.change_texture("res/images/garg.gif")
    -- 38, 80
    player.set_texture_and_offset(0, 38, 32, 42)
+   fmod.stopEvent("event:/player/transformbig", FMOD_STUDIO_STOP_ALLOWFADEOUT)
 end
 
 function player.normal.onJump()
@@ -96,14 +97,15 @@ function player.big.onTransform()
    print("transforming to big!")
    player.change_texture("res/images/big.gif")
    player.set_texture_and_offset(12, 140, 98, 88)
+   fmod.playEvent("event:/player/transformbig")
 end
 
 function player.big.onJump()
    player.set_texture_and_offset(674, 138, 97, 89)
-   fmod.playOneShotWithParameter("event:/player/jump", "transform", 1.0)
+   fmod.playOneShot("event:/player/jump")
 end
 
 function player.big.onLand()
    player.set_texture_and_offset(12, 140, 98, 88)
-   fmod.playOneShotWithParameter("event:/player/land", "transform", 1.0)
+   fmod.playOneShot("event:/player/jump")
 end

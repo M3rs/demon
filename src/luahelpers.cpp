@@ -19,6 +19,8 @@ void register_fmod(sol::state &lua, AudioEngine &audio) {
       &audio); // instance of class (since it is a member function)
   fmod.set_function("playOneShotWithParameter",
                     &AudioEngine::playOneShotWithParameter, &audio);
+  fmod.set_function("playEvent", &AudioEngine::playEvent, &audio);
+  fmod.set_function("stopEvent", &AudioEngine::stopEvent, &audio);
 }
 
 void register_input(sol::state& lua)

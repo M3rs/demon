@@ -1,7 +1,6 @@
 #include "audioengine.hpp"
 
 #include "fmod_errors.h"
-#include "fmod_studio.hpp"
 #include <iostream>
 
 namespace {
@@ -121,4 +120,30 @@ bool AudioEngine::unloadBank(const std::string &path) {
       return false;
   }
   return true;
+}
+
+void AudioEngine::playEvent(const std::string &path) {
+	auto it = events_cache.find(path);
+	if (it != events_cache.end()) {
+		auto evt = it->second;
+		evt->start();
+	}
+	FMOD::Studio::EventDescription *evtDesc(nullptr);
+	auto result = m_studioSystem->getEvent(path.c_str(), &evtDesc);
+	if (!errorcheck(result))
+		return;
+	FMOD::Studio::EventInstance *evtInst(nullptr);
+	result = evtDesc->createInstance(&evtInst);
+	if (!errorcheck(result))
+		return;
+	events_cache.emplace(path, std::move(evtInst));
+	evtInst->start();
+}
+
+void AudioEngine::stopEvent(const std::string &path, FMOD_STUDIO_STOP_MODE stopMode) {
+	auto it = events_cache.find(path);
+	if (it != events_cache.end()) {
+		auto evt = it->second;
+		evt->stop(stopMode);
+	}
 }
