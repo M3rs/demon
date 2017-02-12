@@ -25,6 +25,7 @@ public:
   bool initialize(sol::state &lua);
   SDL_Renderer* getRenderer();
 
+  /** Add sprite to render list */
   Sprite* add_sprite(const std::string& key);
 
 private:

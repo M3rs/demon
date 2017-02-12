@@ -59,7 +59,7 @@ void Player::handle_event(SDL_Keycode keycode) {
   }
 }
 
-void Player::update(const Uint8 *input, double deltaTime) {
+void Player::update(double deltaTime) {
   // reset x velocity to 0 (could not and have accel/deccel (more complicated)
   m_physicsBody.vel_x = 0;
 

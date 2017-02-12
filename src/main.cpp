@@ -65,9 +65,9 @@ int main(int argc, char *args[]) {
         player.handle_event(e.key.keysym.sym);
       }
     }
-    // handle continuous inputs
-    keyboardState = SDL_GetKeyboardState(NULL);
-    player.update(keyboardState, timer.getDeltaTime());
+
+    // update all entity / things
+    player.update(timer.getDeltaTime());
 
     // update subsystems
     m_audioEngine.update();

@@ -15,7 +15,7 @@ public:
   Player(Textures& textures, sol::state& lua, std::string luafile, std::string luatable, Sprite* sprite);
 
   void handle_event(SDL_Keycode keycode);
-  void update(const Uint8* input, double deltaTime);
+  void update(double deltaTime);
   
 private:
 
