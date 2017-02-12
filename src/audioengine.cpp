@@ -127,6 +127,7 @@ void AudioEngine::playEvent(const std::string &path) {
 	if (it != events_cache.end()) {
 		auto evt = it->second;
 		evt->start();
+		return;
 	}
 	FMOD::Studio::EventDescription *evtDesc(nullptr);
 	auto result = m_studioSystem->getEvent(path.c_str(), &evtDesc);
