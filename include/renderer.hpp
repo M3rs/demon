@@ -27,6 +27,7 @@ public:
 
   /** Add sprite to render list */
   Sprite* add_sprite(const std::string& key);
+  void remove_sprite(const std::string& key);
 
 private:
   SDL_Window *window;

@@ -1,6 +1,7 @@
 #include "sprite.hpp"
 #include <SDL_image.h>
 #include <iostream>
+#include <algorithm> // std::swap?
 #include <physicsbody.hpp>
 #include <player.hpp>
 
@@ -31,6 +32,24 @@ Player::Player(Textures &textures, sol::state &lua, std::string luafile,
   m_sprite->world_coords = getRectFromTable(sprite_t["world_coords"]);
 
   m_physicsBody = PhysicsBody();
+}
+
+Player& Player::operator=(Player other)
+{
+  std::swap(m_isJumping, other.m_isJumping);
+  std::swap(m_speed, other.m_speed);
+  std::swap(m_physicsBody, other.m_physicsBody);
+  std::swap(m_textures, other.m_textures);
+  std::swap(m_sprite, other.m_sprite);
+  std::swap(m_lua, other.m_lua);
+  std::swap(script_file, other.script_file);
+  std::swap(table, other.table);
+  std::swap(m_form, other.m_form);
+  std::swap(supdate, other.supdate);
+
+  // TODO(ajm): Correct lua functions
+  
+  return *this;
 }
 
 void Player::setup_lua() {
@@ -125,4 +144,14 @@ void Player::apply_jump(int force)
   m_isJumping = true; // old?
   m_physicsBody.vel_y = force;
   m_physicsBody.airborne = true;
+}
+
+bool Player::isAlive()
+{
+  return true;
+}
+
+const std::string& Player::getId()
+{
+  return table;
 }

@@ -93,3 +93,8 @@ Sprite* Renderer::add_sprite(const std::string& key)
 
   return &m_drawlist[key];
 }
+
+void Renderer::remove_sprite(const std::string& key)
+{
+  m_drawlist.erase(key);
+}
