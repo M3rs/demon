@@ -19,14 +19,14 @@ public:
 
   bool isAlive();
   const std::string& getId();
+
+  PhysicsBody* m_physicsBody;
   
 private:
 
   bool m_isJumping;
   float m_speed;
 
-  PhysicsBody			m_physicsBody;
-  
   Textures& m_textures;
   Sprite* m_sprite;
   sol::state& m_lua;

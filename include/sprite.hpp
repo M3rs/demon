@@ -2,6 +2,7 @@
 #define SPRITE_HPP
 
 #include <SDL.h>
+#include <string>
 
 struct Sprite {
   SDL_Texture* texture;

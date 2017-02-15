@@ -5,31 +5,26 @@
 #include <vector>
 #include <map>
 #include <SDL.h>
+#include <string>
 
-//fwd decl -- am I doing it right?
 struct Sprite;
 
 class PhysicsBody {
 public:
-	PhysicsBody();
+	PhysicsBody(std::string id_, Sprite* sprite);
 	~PhysicsBody();
 
-	//motion per update? per second?
+	std::string id;
+
 	float vel_x;
 	float vel_y;
+	SDL_Rect* world_coords;
 
 	bool airborne;
 	//float mass; //maybe later
 
 	//modify sprite's worldspace according to vel
-	void updateMotion(Sprite* m_sprite);
-
-	static void RenderLayerToCollisionBounds(std::map<std::string, Sprite> renderLayer);
-
-private:
-	//can separate collision validity by placing entities on different layers,
-	//or having an entity check against specific layers while excluding others
-	static std::vector<SDL_Rect> CollisionLayerFG;
+	void updateInputs(float x_, float y_);
 };
 
 #endif //PHYSICSBODY_HPP

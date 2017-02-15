@@ -72,9 +72,6 @@ void Renderer::update() {
     SDL_RenderCopy(renderer, sprite.texture, &sprite.texture_coords, &sprite.world_coords);
   }
 
-  //report draw-valid objects to collision layer
-  PhysicsBody::RenderLayerToCollisionBounds(m_drawlist);
-
    SDL_RenderPresent(renderer);
 }
 

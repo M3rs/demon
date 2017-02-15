@@ -3,7 +3,6 @@
 
 -- player table
 player = {
-
    sprite = {
       texture_file = "res/images/garg.gif",
       texture_coords = {
@@ -12,12 +11,13 @@ player = {
       world_coords = {
 	 x = 100, y = 350, w = 32, h = 42
       }
-   },
-   
-   -- physics
+   },   
+
+   --physics  
    speed = 150,
-   velx = 0,
-   vely = 0,
+    velx = 0,
+    vely = 0,
+     
 
    form = "normal",
 
@@ -108,4 +108,4 @@ end
 function player.big.onLand()
    player.set_texture_and_offset(12, 140, 98, 88)
    fmod.playOneShot("event:/player/jump")
-end
+end  

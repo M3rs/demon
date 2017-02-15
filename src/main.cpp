@@ -3,12 +3,14 @@
 #include "player.hpp"
 #include "renderer.hpp"
 #include "sprite.hpp"
+#include "physicsengine.hpp"
 #include "textures.hpp"
 #include "timer.hpp"
 #include <iostream>
 #include <vector>
 #include <string>
 #include <algorithm>
+
 
 int main(int argc, char *args[]) {
 
@@ -26,6 +28,8 @@ int main(int argc, char *args[]) {
     std::cout << "Please resolve and try running again.\n";
     std::cin.get(); // if you run with Control+F5, you shouldn't need this ;)
   }
+
+
   
   // register / initialize w/ lua
   register_fmod(lua, m_audioEngine);
@@ -38,12 +42,15 @@ int main(int argc, char *args[]) {
   Sprite* player_sprite = m_renderer.add_sprite("player");
   Player player(tx_cache, lua, "res/scripts/player.lua", "player", player_sprite);
 
-  //obviously a hack, but our floor 'player' will not input update
   Sprite* floor_sprite = m_renderer.add_sprite("floor");
   Player floor(tx_cache, lua, "res/scripts/floor.lua", "floor", floor_sprite);
 
   Sprite* box_sprite = m_renderer.add_sprite("box");
   Player box(tx_cache, lua, "res/scripts/box.lua", "box", box_sprite);
+
+  PhysicsEngine m_physicsEngine;
+  m_physicsEngine.register_physBody(player.m_physicsBody);
+  m_physicsEngine.register_physBody(box.m_physicsBody);
 
   Timer timer = Timer();
 
@@ -73,6 +80,7 @@ int main(int argc, char *args[]) {
     player.update(dt);
 
     // check physics
+	m_physicsEngine.update();
 
     // update subsystems
     m_audioEngine.update();

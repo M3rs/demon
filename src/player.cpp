@@ -32,7 +32,9 @@ Player::Player(Textures &textures, sol::state &lua, std::string luafile,
   m_sprite->texture_coords = getRectFromTable(sprite_t["texture_coords"]);
   m_sprite->world_coords = getRectFromTable(sprite_t["world_coords"]);
 
-  m_physicsBody = PhysicsBody();
+  //TODO(nmg): Add an id increment function or something here
+  //so multiples of one entity type don't break the system
+  m_physicsBody = new PhysicsBody(table, m_sprite);
 }
 
 void Player::setup_lua() {
@@ -63,20 +65,14 @@ void Player::handle_event(SDL_Keycode keycode) {
 }
 
 void Player::update(double deltaTime) {
-  // reset x velocity to 0 (could not and have accel/deccel (more complicated)
-  m_physicsBody.vel_x = 0;
-
-  supdate(deltaTime);
-
-  if (m_isJumping) {
-    // m_force.y += 1;
-    // m_sprite.move(sf::Vector2f(0, 3)); // extra gravity
-  }
+	//entities decide their own response to input in lua, then give values to physBody	
+	supdate(deltaTime);
+	m_physicsBody->updateInputs(m_lua[table]["velx"], m_lua[table]["vely"]);
 
   // hack: player specific
-  m_physicsBody.vel_x = m_lua[table]["velx"];
+  //m_physicsBody.vel_x = m_lua[table]["velx"];
   // m_physicsBody.vel_y = m_lua["player"]["vely"];
-  m_physicsBody.updateMotion(m_sprite);
+  //m_physicsBody.updateMotion(m_sprite); //new physicsengine updates in main
 
   /*
   if (m_force.y >= 0) {
@@ -125,9 +121,8 @@ void Player::set_texture_and_offset(int x, int y, int w, int h) {
 
 void Player::apply_jump(int force)
 {
-  m_isJumping = true; // old?
-  m_physicsBody.vel_y = force;
-  m_physicsBody.airborne = true;
+  m_physicsBody->vel_y = force;
+  m_physicsBody->airborne = true;
 }
 
 bool Player::isAlive()
