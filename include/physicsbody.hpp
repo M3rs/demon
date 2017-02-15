@@ -11,6 +11,7 @@ struct Sprite;
 
 class PhysicsBody {
 public:
+	PhysicsBody();
 	PhysicsBody(std::string id_, Sprite* sprite);
 	~PhysicsBody();
 

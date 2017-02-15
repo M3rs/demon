@@ -2,18 +2,23 @@
 #include "physicsbody.hpp"
 #include <string>
 #include <iostream>
+#include "sprite.hpp"
 
 PhysicsEngine::PhysicsEngine() :
 	m_physicsList(std::map<std::string, PhysicsBody*>{}) {}
 
-void PhysicsEngine::register_physBody(PhysicsBody* physBody) {
-	auto it = m_physicsList.find(physBody->id);
+PhysicsBody* PhysicsEngine::create_physBody(std::string id, Sprite* sprite) {
+	auto it = m_physicsList.find(id);
 	if (it != m_physicsList.end()) {
-		std::cout << "PhysicsList has already registered " << physBody->id << std::endl;
+		std::cout << "PhysicsList has already registered " << id << std::endl;
+		return m_physicsList[id];
 	}
-	m_physicsList.emplace(physBody->id, physBody);
+
+	m_physicsList.emplace(id, new PhysicsBody(id, sprite));
+	return m_physicsList[id];
 }
 
+//TODO(nmg): change to string param to deregister by key; figure out who will use
 void PhysicsEngine::deregister_physBody(PhysicsBody* physBody) {
 	m_physicsList.erase(physBody->id);
 }

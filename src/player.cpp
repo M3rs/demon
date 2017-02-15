@@ -19,7 +19,7 @@ SDL_Rect getRectFromTable(sol::table t) {
 }
 
 Player::Player(Textures &textures, sol::state &lua, std::string luafile,
-               std::string luatable, Sprite *sprite)
+               std::string luatable, Sprite *sprite, PhysicsBody *physBody)
     : m_textures(textures), m_speed(150), m_isJumping(false), m_lua(lua),
       m_form("normal"), m_sprite(sprite), script_file(luafile),
       table(luatable) {
@@ -32,9 +32,7 @@ Player::Player(Textures &textures, sol::state &lua, std::string luafile,
   m_sprite->texture_coords = getRectFromTable(sprite_t["texture_coords"]);
   m_sprite->world_coords = getRectFromTable(sprite_t["world_coords"]);
 
-  //TODO(nmg): Add an id increment function or something here
-  //so multiples of one entity type don't break the system
-  m_physicsBody = new PhysicsBody(table, m_sprite);
+  m_physicsBody = physBody;
 }
 
 void Player::setup_lua() {

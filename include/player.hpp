@@ -12,7 +12,8 @@ struct Sprite;
 
 class Player {
 public:
-  Player(Textures &textures, sol::state& lua, std::string luafile, std::string luatable, Sprite* sprite);
+  Player(Textures &textures, sol::state& lua, std::string luafile, std::string luatable, 
+	  Sprite* sprite, PhysicsBody* physBody);
 
   void handle_event(SDL_Keycode keycode);
   void update(double deltaTime);

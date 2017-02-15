@@ -6,6 +6,7 @@
 
 //forward decl
 class PhysicsBody;
+struct Sprite;
 
 class PhysicsEngine {
 public:
@@ -15,7 +16,7 @@ public:
 	void update();
 
   /** Methods to add/remove sprites */
-	void register_physBody(PhysicsBody* physBody);
+	PhysicsBody* create_physBody(std::string id, Sprite* sprite);
 	void deregister_physBody(PhysicsBody* physBody);
 
 private:
