@@ -27,6 +27,7 @@ Player::Player(Textures &textures, sol::state &lua, std::string luafile,
   setup_lua();
 
   sol::table sprite_t = m_lua[table]["sprite"];
+  
   m_sprite->texture = textures.get(sprite_t["texture_file"]);
   m_sprite->texture_coords = getRectFromTable(sprite_t["texture_coords"]);
   m_sprite->world_coords = getRectFromTable(sprite_t["world_coords"]);
@@ -34,28 +35,11 @@ Player::Player(Textures &textures, sol::state &lua, std::string luafile,
   m_physicsBody = PhysicsBody();
 }
 
-Player& Player::operator=(Player other)
-{
-  std::swap(m_isJumping, other.m_isJumping);
-  std::swap(m_speed, other.m_speed);
-  std::swap(m_physicsBody, other.m_physicsBody);
-  std::swap(m_textures, other.m_textures);
-  std::swap(m_sprite, other.m_sprite);
-  std::swap(m_lua, other.m_lua);
-  std::swap(script_file, other.script_file);
-  std::swap(table, other.table);
-  std::swap(m_form, other.m_form);
-  std::swap(supdate, other.supdate);
-
-  // TODO(ajm): Correct lua functions
-  
-  return *this;
-}
-
 void Player::setup_lua() {
   m_lua.script_file(script_file);
 
   sol::table player_t = m_lua[table];
+  
   supdate = player_t["update"];
   player_t.set_function("set_texture_rect", &Player::set_texture, this);
   player_t.set_function("change_texture", &Player::change_texture, this);
@@ -63,7 +47,7 @@ void Player::setup_lua() {
   player_t.set_function("set_texture_and_offset",
                         &Player::set_texture_and_offset, this);
   player_t.set_function("apply_jump", &Player::apply_jump, this);
-}
+ }
 
 void Player::handle_event(SDL_Keycode keycode) {
 
