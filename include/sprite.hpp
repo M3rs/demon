@@ -1,8 +1,8 @@
 #ifndef SPRITE_HPP
 #define SPRITE_HPP
 
-#include <SDL.h>
 #include <string>
+#include "SDL.h"
 
 struct Sprite {
   SDL_Texture* texture;
@@ -11,6 +11,7 @@ struct Sprite {
 
   void set_texture(int x, int y, int w, int h);
   void set_texture_and_offset(int x, int y, int w, int h);
+  void change_texture(void* newtexture);
 };
 
 #endif // SPRITE_HPP

@@ -43,11 +43,6 @@ private:
 
   // lua funcs
   void setup_lua();
-  void set_texture(int x, int y, int w, int h);
-  void change_texture(const std::string& txname);
-  void set_texture_and_offset(int x, int y, int w, int h);
-
-  void apply_jump(int force);
 };
 
 #endif // PLAYER_HPP

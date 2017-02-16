@@ -44,11 +44,6 @@ void Player::setup_lua() {
   sol::table player_t = m_lua[table];
   
   supdate = player_t["update"];
-  player_t.set_function("set_texture_rect", &Player::set_texture, this);
-  player_t.set_function("change_texture", &Player::change_texture, this);
-  player_t.set_function("set_texture_and_offset",
-                        &Player::set_texture_and_offset, this);
-  player_t.set_function("apply_jump", &Player::apply_jump, this);
  }
 
 void Player::handle_event(SDL_Keycode keycode) {
@@ -67,37 +62,6 @@ void Player::handle_event(SDL_Keycode keycode) {
 void Player::update(double deltaTime) {
 	//entities decide their own response to input in lua, then give values to physBody	
 	supdate(deltaTime);
-}
-
-void Player::set_texture(int x, int y, int w, int h) {
-  m_sprite->texture_coords.x = x;
-  m_sprite->texture_coords.y = y;
-  m_sprite->texture_coords.w = w;
-  m_sprite->texture_coords.h = h;
-
-  m_sprite->world_coords.w = w;
-  m_sprite->world_coords.h = h;
-}
-
-void Player::change_texture(const std::string &txname) {
-  m_sprite->texture = m_textures.get(txname);
-}
-
-
-
-void Player::set_texture_and_offset(int x, int y, int w, int h) {
-  // shortcut for setTexture and moveSprite
-  // adjusts so as to keep bottom plane consistent
-
-  auto old_height = m_sprite->texture_coords.h;
-  set_texture(x, y, w, h);
-  m_sprite->world_coords.y += (old_height - h);
-}
-
-void Player::apply_jump(int force)
-{
-  m_physicsBody->vel_y = force;
-  m_physicsBody->airborne = true;
 }
 
 bool Player::isAlive()

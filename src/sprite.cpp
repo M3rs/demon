@@ -17,3 +17,8 @@ void Sprite::set_texture_and_offset(int x, int y, int w, int h)
   set_texture(x, y, w, h);
   world_coords.y += (old_height - h);
 }
+
+void Sprite::change_texture(void* newtexture)
+{
+  texture = (SDL_Texture*)newtexture;
+}

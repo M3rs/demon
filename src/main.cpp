@@ -1,5 +1,5 @@
-#include "audioengine.hpp"
 #include "luahelpers.hpp"
+#include "audioengine.hpp"
 #include "physicsengine.hpp"
 #include "player.hpp"
 #include "renderer.hpp"
@@ -38,6 +38,8 @@ int main(int argc, char *args[]) {
   Textures tx_cache(m_renderer.getRenderer());
   tx_cache.loadTexture("res/images/garg.gif");
   tx_cache.loadTexture("res/images/big.gif");
+  
+  lua.set_function("gettx", [&](std::string n) { return (void*)tx_cache.get(n); });
 
   PhysicsEngine m_physicsEngine;
 
