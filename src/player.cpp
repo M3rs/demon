@@ -4,6 +4,7 @@
 #include <algorithm> // std::swap?
 #include <physicsbody.hpp>
 #include <player.hpp>
+#include "texture_t.hpp"
 
 // TODO(ajm): move this somewhere else
 namespace {
@@ -27,8 +28,9 @@ Player::Player(Textures &textures, sol::state &lua, std::string luafile,
   setup_lua();
 
   sol::table sprite_t = m_lua[table]["sprite"];
-  
-  m_sprite->texture = textures.get(sprite_t["texture_file"]);
+  Texture_T* text_t = textures.get(sprite_t["texture_file"]);
+  m_sprite->texture = text_t->get();
+  //m_sprite->texture = textures.get(sprite_t["texture_file"]);
   m_sprite->texture_coords = getRectFromTable(sprite_t["texture_coords"]);
   m_sprite->world_coords = getRectFromTable(sprite_t["world_coords"]);
 

@@ -3,10 +3,10 @@
 
 #include <SDL.h>
 
-class Texture_t {
+class Texture_T {
 public:
-	Texture_t(SDL_Renderer* renderer, SDL_Surface* surface);
-	~Texture_t();
+	Texture_T(SDL_Renderer* renderer, SDL_Surface* surface);
+	~Texture_T();
 
 	SDL_Texture* get();
 

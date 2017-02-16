@@ -1,4 +1,5 @@
 #include "sprite.hpp"
+#include "texture_t.hpp"
 
 void Sprite::set_texture(int x, int y, int w, int h)
 {
@@ -18,7 +19,7 @@ void Sprite::set_texture_and_offset(int x, int y, int w, int h)
   world_coords.y += (old_height - h);
 }
 
-void Sprite::change_texture(void* newtexture)
+void Sprite::change_texture(Texture_T* newtexture)
 {
-  texture = (SDL_Texture*)newtexture;
+  texture = newtexture->get();
 }

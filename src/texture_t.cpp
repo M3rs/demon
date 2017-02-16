@@ -1,15 +1,15 @@
 #include "texture_t.hpp"
 #include <SDL.h>
 
-Texture_t::Texture_t(SDL_Renderer* renderer, SDL_Surface* surface) {
+Texture_T::Texture_T(SDL_Renderer* renderer, SDL_Surface* surface) {
 	sdl_text = SDL_CreateTextureFromSurface(renderer, surface);
 }
 
-Texture_t::~Texture_t() {
+Texture_T::~Texture_T() {
 	SDL_DestroyTexture(sdl_text);
 }
 
-SDL_Texture * Texture_t::get()
+SDL_Texture * Texture_T::get()
 {
 	return sdl_text;
 }
