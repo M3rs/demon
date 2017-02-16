@@ -15,12 +15,12 @@ public:
   /** update / step method */
 	void update();
 
-  /** Methods to add/remove sprites */
+  /** Methods to add/remove physics objects */
 	PhysicsBody* create_physBody(std::string id, Sprite* sprite);
 	void deregister_physBody(PhysicsBody* physBody);
 
 private:
-  // collection of sprites?
+  // collection of physics objects
 	std::map<std::string, PhysicsBody> m_physicsList;
   
 };

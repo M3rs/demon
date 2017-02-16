@@ -39,7 +39,7 @@ int main(int argc, char *args[]) {
   tx_cache.loadTexture("res/images/garg.gif");
   tx_cache.loadTexture("res/images/big.gif");
   
-  lua.set_function("gettx", [&](std::string n) { return (void*)tx_cache.get(n); });
+  lua.set_function("gettx", [&](std::string n) { return tx_cache.get(n); });
 
   PhysicsEngine m_physicsEngine;
 

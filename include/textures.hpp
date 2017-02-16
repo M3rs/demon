@@ -6,12 +6,14 @@
 #include "sdlhelpers.hpp"
 #include "SDL.h"
 
+class Texture_T;
+
 class Textures {
 public:
 
   Textures(SDL_Renderer* renderer);
 
-  SDL_Texture* get(const std::string& filename);
+  const Texture_T* get(const std::string& filename);
 
   void loadTexture(const std::string& filename);
 
@@ -20,7 +22,7 @@ public:
 private:
 
   SDL_Renderer* m_renderer;
-  std::map<std::string, const Texture_ptr> m_cache;
+  std::map<std::string, const Texture_T*> m_cache;
 };
 
 #endif // TEXTURES_HPP

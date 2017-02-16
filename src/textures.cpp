@@ -1,16 +1,15 @@
 #include "textures.hpp"
-
+#include "texture_t.hpp"
 #include "SDL_image.h"
 #include <iostream>
 
-Textures::Textures(SDL_Renderer* renderer) : m_renderer(renderer), m_cache(std::map<std::string, const Texture_ptr>()) {}
+Textures::Textures(SDL_Renderer* renderer) : m_renderer(renderer), m_cache(std::map<std::string, const Texture_T*>()) {}
 
-SDL_Texture* Textures::get(const std::string &filename) {
+const Texture_T* Textures::get(const std::string &filename) {
   auto it = m_cache.find(filename);
   if (it != m_cache.end()) {
-    //return it->second.get();
     std::cout << "get texture: " << filename << std::endl;
-    return it->second.get();
+    return it->second;
   }
 
   SDL_Surface* img = IMG_Load(filename.c_str());
@@ -20,11 +19,10 @@ SDL_Texture* Textures::get(const std::string &filename) {
   }
   // TODO(ajm): add override method with color key param(s)
   SDL_SetColorKey(img, 1, SDL_MapRGB(img->format, 17, 13, 42));
-  Texture_ptr tx(SDL_CreateTextureFromSurface(m_renderer, img));
+  Texture_t* tx = &Texture_t(m_renderer, img);
   SDL_FreeSurface(img);
-
   m_cache.emplace(filename, std::move(tx));
-  return m_cache[filename].get();
+  return m_cache[filename];
 }
 
 void Textures::loadTexture(const std::string& filename) {
@@ -35,7 +33,7 @@ void Textures::loadTexture(const std::string& filename) {
   }
   // TODO(ajm): add override method with color key param(s)
   SDL_SetColorKey(img, 1, SDL_MapRGB(img->format, 17, 13, 42));
-  Texture_ptr tx(SDL_CreateTextureFromSurface(m_renderer, img));
+  Texture_t* tx = &Texture_t(m_renderer, img);
   SDL_FreeSurface(img);
 
   m_cache.emplace(filename, std::move(tx));
