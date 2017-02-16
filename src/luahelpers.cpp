@@ -3,6 +3,9 @@
 #include "audioengine.hpp"
 #include <sol.hpp>
 
+#include "physicsbody.hpp"
+#include "sprite.hpp"
+
 namespace {
   bool KeyPressed(const std::string& key_name)
   {
@@ -27,4 +30,18 @@ void register_input(sol::state& lua)
 {
   sol::table key = lua.create_table("kbd");
   key.set_function("isPressed", &KeyPressed);
+}
+
+void register_physicsbody(sol::state& lua)
+{
+  lua.new_usertype<PhysicsBody>("physicsbody",
+				"updateInputs", &PhysicsBody::updateInputs);
+}
+
+void register_sprite(sol::state& lua)
+{
+  lua.new_usertype<Sprite>("sprite",
+			   "set_texture", &Sprite::set_texture,
+			   "set_texture_and_offset", &Sprite::set_texture_and_offset);
+			   
 }

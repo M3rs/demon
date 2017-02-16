@@ -55,6 +55,8 @@ function player.update(dt)
       player.velx = player.speed * dt
    end
 
+   player.body:updateInputs(player.velx, player.vely)
+
    -- save some key "press" to check above for "release"
    for k,v in pairs(player.keys) do
       if kbd.isPressed(k) then

@@ -1,16 +1,15 @@
 #include "audioengine.hpp"
 #include "luahelpers.hpp"
+#include "physicsengine.hpp"
 #include "player.hpp"
 #include "renderer.hpp"
 #include "sprite.hpp"
-#include "physicsengine.hpp"
 #include "textures.hpp"
 #include "timer.hpp"
-#include <iostream>
-#include <vector>
-#include <string>
 #include <algorithm>
-
+#include <iostream>
+#include <string>
+#include <vector>
 
 int main(int argc, char *args[]) {
 
@@ -20,7 +19,8 @@ int main(int argc, char *args[]) {
   lua.script_file("res/scripts/settings.lua");
 
   AudioEngine m_audioEngine;
-  m_audioEngine.initialize(); // TODO: if audio init error, use null implementation
+  m_audioEngine
+      .initialize(); // TODO: if audio init error, use null implementation
 
   Renderer m_renderer;
   if (!(m_renderer.initialize(lua))) {
@@ -32,6 +32,8 @@ int main(int argc, char *args[]) {
   // register / initialize w/ lua
   register_fmod(lua, m_audioEngine);
   register_input(lua);
+  register_physicsbody(lua);
+  register_sprite(lua);
 
   Textures tx_cache(m_renderer.getRenderer());
   tx_cache.loadTexture("res/images/garg.gif");
@@ -39,17 +41,21 @@ int main(int argc, char *args[]) {
 
   PhysicsEngine m_physicsEngine;
 
-  //entity composition
-  Sprite* player_sprite = m_renderer.add_sprite("player");
-  PhysicsBody* player_pb = m_physicsEngine.create_physBody("player", player_sprite);
-  Player player(tx_cache, lua, "res/scripts/player.lua", "player", player_sprite, player_pb);
+  // entity composition
+  Sprite *player_sprite = m_renderer.add_sprite("player");
+  PhysicsBody *player_pb =
+      m_physicsEngine.create_physBody("player", player_sprite);
+  Player player(tx_cache, lua, "res/scripts/player.lua", "player",
+                player_sprite, player_pb);
 
-  Sprite* floor_sprite = m_renderer.add_sprite("floor");
-  PhysicsBody* floor_pb = m_physicsEngine.create_physBody("floor", floor_sprite);
-  Player floor(tx_cache, lua, "res/scripts/floor.lua", "floor", floor_sprite, floor_pb);
+  Sprite *floor_sprite = m_renderer.add_sprite("floor");
+  PhysicsBody *floor_pb =
+      m_physicsEngine.create_physBody("floor", floor_sprite);
+  Player floor(tx_cache, lua, "res/scripts/floor.lua", "floor", floor_sprite,
+               floor_pb);
 
-  Sprite* box_sprite = m_renderer.add_sprite("box");
-  PhysicsBody* box_pb = m_physicsEngine.create_physBody("box", box_sprite);
+  Sprite *box_sprite = m_renderer.add_sprite("box");
+  PhysicsBody *box_pb = m_physicsEngine.create_physBody("box", box_sprite);
   Player box(tx_cache, lua, "res/scripts/box.lua", "box", box_sprite, box_pb);
 
   Timer timer = Timer();
@@ -70,7 +76,7 @@ int main(int argc, char *args[]) {
           quit = true;
         }
         // handle discrete inputs
-	player.handle_event(e.key.keysym.sym);
+        player.handle_event(e.key.keysym.sym);
       }
     }
 
@@ -80,7 +86,7 @@ int main(int argc, char *args[]) {
     player.update(dt);
 
     // check physics
-	m_physicsEngine.update();
+    m_physicsEngine.update();
 
     // update subsystems
     m_audioEngine.update();
