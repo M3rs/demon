@@ -5,17 +5,17 @@
 #include "sprite.hpp"
 
 PhysicsEngine::PhysicsEngine() :
-	m_physicsList(std::map<std::string, PhysicsBody*>{}) {}
+	m_physicsList(std::map<std::string, PhysicsBody>{}) {}
 
 PhysicsBody* PhysicsEngine::create_physBody(std::string id, Sprite* sprite) {
 	auto it = m_physicsList.find(id);
 	if (it != m_physicsList.end()) {
 		std::cout << "PhysicsList has already registered " << id << std::endl;
-		return m_physicsList[id];
+		return &m_physicsList[id];
 	}
 
-	m_physicsList.emplace(id, new PhysicsBody(id, sprite));
-	return m_physicsList[id];
+	m_physicsList.emplace(id, PhysicsBody(id, sprite));
+	return &m_physicsList[id];
 }
 
 //TODO(nmg): change to string param to deregister by key; figure out who will use
@@ -25,7 +25,7 @@ void PhysicsEngine::deregister_physBody(PhysicsBody* physBody) {
 
 void PhysicsEngine::update() {
 	for (auto& kv_pair : m_physicsList) {
-		auto physBody = kv_pair.second;
+		PhysicsBody* physBody = &kv_pair.second;
 
 		if (physBody->airborne && physBody->vel_y < 13) {
 			//gravity with terminal velocity check
@@ -38,7 +38,7 @@ void PhysicsEngine::update() {
 
 		bool collision_x(false), collision_y(false);
 		for (auto& kv_pair_colcheck : m_physicsList) {
-			auto physBody_colcheck = kv_pair_colcheck.second;
+			PhysicsBody* physBody_colcheck = &kv_pair_colcheck.second;
 			//TODO(nmg): 'walk off a cliff' transition to airborne
 			SDL_Rect result;
 			if (SDL_IntersectRect(&projectedMovement,

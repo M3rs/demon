@@ -21,7 +21,7 @@ public:
 
 private:
   // collection of sprites?
-	std::map<std::string, PhysicsBody*> m_physicsList;
+	std::map<std::string, PhysicsBody> m_physicsList;
   
 };
 
