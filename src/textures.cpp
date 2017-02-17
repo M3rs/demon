@@ -21,9 +21,8 @@ Texture_T* Textures::get(const std::string &filename) {
   }
   // TODO(ajm): add override method with color key param(s)
   SDL_SetColorKey(img, 1, SDL_MapRGB(img->format, 17, 13, 42));
-  Texture_T tx = Texture_T(m_renderer, img);
+  m_cache.emplace(filename, Texture_T(m_renderer, img));
   SDL_FreeSurface(img);
-  m_cache.emplace(filename, std::move(tx));
   return &m_cache[filename];
 }
 
@@ -35,10 +34,9 @@ void Textures::loadTexture(const std::string& filename) {
   }
   // TODO(ajm): add override method with color key param(s)
   SDL_SetColorKey(img, 1, SDL_MapRGB(img->format, 17, 13, 42));
-  Texture_T tx = Texture_T(m_renderer, img);
+  m_cache.emplace(filename, Texture_T(m_renderer, img));
   SDL_FreeSurface(img);
 
-  m_cache.emplace(filename, std::move(tx));
 }
 
 void Textures::unloadTexture(const std::string& filename) {

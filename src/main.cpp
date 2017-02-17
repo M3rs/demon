@@ -1,3 +1,4 @@
+#include "texture_t.hpp"
 #include "luahelpers.hpp"
 #include "audioengine.hpp"
 #include "physicsengine.hpp"
