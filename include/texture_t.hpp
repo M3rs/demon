@@ -13,8 +13,6 @@ public:
   ~Texture_T();
 
   Texture_T(Texture_T&& t);
-  //Texture_T(const Texture_T &t);
-  //Texture_T &operator=(const Texture_T &t);
 
   SDL_Texture *get();
 

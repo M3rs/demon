@@ -73,8 +73,8 @@ player.normal = {
 
 function player.normal.onTransform()
    print("transforming to normal!")
-   player.change_texture("res/images/garg.gif")
-   -- 38, 80
+   local newt = gettx("res/images/garg.gif")
+   player.mysprite:change_texture(newt)
    player.mysprite:set_texture_and_offset(0, 38, 32, 42)
    fmod.stopEvent("event:/player/transformbig", FMOD_STUDIO_STOP_ALLOWFADEOUT)
 end
