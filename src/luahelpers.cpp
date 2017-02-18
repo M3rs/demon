@@ -35,17 +35,17 @@ void register_input(sol::state& lua)
 
 void register_physicsbody(sol::state& lua)
 {
-  lua.new_usertype<PhysicsBody>("physicsbody",
+  lua.new_simple_usertype<PhysicsBody>("physicsbody",
 				"updateInputs", &PhysicsBody::updateInputs,
 				"apply_jump", &PhysicsBody::apply_jump);
+				
 }
 
 void register_sprite(sol::state& lua)
 {
-  lua.new_usertype<Sprite>("sprite",
+  lua.new_simple_usertype<Sprite>("sprite",
 			   "set_texture", &Sprite::set_texture,
 			   "set_texture_and_offset", &Sprite::set_texture_and_offset,
 			   "change_texture", &Sprite::change_texture);
-			   
 }
 

@@ -6,7 +6,8 @@
 
 class Texture_T;
 
-struct Sprite {
+class Sprite {
+public:
   SDL_Texture* texture;
   SDL_Rect texture_coords; // texture coords to use (NULL = whole texture)
   SDL_Rect world_coords; // where object is in world

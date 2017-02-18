@@ -33,18 +33,21 @@ void PhysicsEngine::update() {
       physBody->vel_y += 0.7F;
     }
 
+	//TODO: int coordinates in SDL_Rect are causing rounding errors
+	//player moves faster to the left than to the right by 1 unit
     SDL_Rect projectedMovement = *physBody->world_coords;
     projectedMovement.x += physBody->vel_x;
     projectedMovement.y += physBody->vel_y;
 
+
     bool collision_x(false), collision_y(false);
     for (auto &kv_pair_colcheck : m_physicsList) {
-      PhysicsBody *physBody_colcheck = &kv_pair_colcheck.second;
+      PhysicsBody *pb_col = &kv_pair_colcheck.second;
       // TODO(nmg): 'walk off a cliff' transition to airborne
       SDL_Rect result;
-      if (SDL_IntersectRect(&projectedMovement, physBody_colcheck->world_coords,
+      if (SDL_IntersectRect(&projectedMovement, pb_col->world_coords,
                             &result) &&
-          physBody->id != physBody_colcheck->id) {
+          physBody->id != pb_col->id) {
         // collision
 	//physBody->id
 
@@ -54,14 +57,14 @@ void PhysicsEngine::update() {
           collision_y = true;
           physBody->vel_y = 0;
           physBody->world_coords->y =
-              physBody_colcheck->world_coords->y - physBody->world_coords->h;
+              pb_col->world_coords->y - physBody->world_coords->h;
         }
         if (physBody->airborne && physBody->vel_y < 0 && result.h > 0) {
           // head bumped something above
           collision_y = true;
           physBody->vel_y = 0;
-          physBody->world_coords->y = physBody_colcheck->world_coords->y +
-                                      physBody_colcheck->world_coords->h;
+          physBody->world_coords->y = pb_col->world_coords->y +
+                                      pb_col->world_coords->h;
         }
         if (result.w > 0) {
           collision_x = true;

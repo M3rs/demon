@@ -50,7 +50,7 @@ function player.update(dt)
    player.velx = 0
    
    if kbd.isPressed("A") then
-      player.velx = player.speed * -1 * dt
+      player.velx = player.speed * -1.0 * dt
    elseif kbd.isPressed("D") then
       player.velx = player.speed * dt
    end
