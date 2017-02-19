@@ -13,6 +13,7 @@ class PhysicsBody {
 public:
   PhysicsBody();
   PhysicsBody(std::string id_, Sprite *sprite);
+  PhysicsBody(std::string id_, Sprite *sprite, bool isStationary);
   ~PhysicsBody();
 
   std::string id;
@@ -22,6 +23,8 @@ public:
   SDL_Rect *world_coords;
 
   bool airborne;
+  bool suspend_x; //prevent movement on an axis
+  bool suspend_y;
   // float mass; //maybe later
 
   // modify sprite's worldspace according to vel

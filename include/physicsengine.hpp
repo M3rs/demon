@@ -16,7 +16,7 @@ public:
 	void update();
 
   /** Methods to add/remove physics objects */
-	PhysicsBody* create_physBody(std::string id, Sprite* sprite);
+	PhysicsBody* create_physBody(std::string id, Sprite* sprite, bool isStationary);
 	void deregister_physBody(PhysicsBody* physBody);
 
 private:

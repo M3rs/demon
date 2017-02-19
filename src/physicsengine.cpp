@@ -7,14 +7,15 @@
 PhysicsEngine::PhysicsEngine()
     : m_physicsList(std::map<std::string, PhysicsBody>{}) {}
 
-PhysicsBody *PhysicsEngine::create_physBody(std::string id, Sprite *sprite) {
+PhysicsBody *PhysicsEngine::create_physBody(std::string id, Sprite *sprite, 
+	bool isStationary) {
   auto it = m_physicsList.find(id);
   if (it != m_physicsList.end()) {
     std::cout << "PhysicsList has already registered " << id << std::endl;
     return &m_physicsList[id];
   }
 
-  m_physicsList.emplace(id, PhysicsBody(id, sprite));
+  m_physicsList.emplace(id, PhysicsBody(id, sprite, isStationary));
   return &m_physicsList[id];
 }
 
@@ -26,62 +27,87 @@ void PhysicsEngine::deregister_physBody(PhysicsBody *physBody) {
 
 void PhysicsEngine::update() {
   for (auto &kv_pair : m_physicsList) {
-    PhysicsBody *physBody = &kv_pair.second;
-
-    if (physBody->airborne && physBody->vel_y < 13) {
-      // gravity with terminal velocity check
-      physBody->vel_y += 0.7F;
-    }
-
-	//TODO: int coordinates in SDL_Rect are causing rounding errors
-	//player moves faster to the left than to the right by 1 unit
-    SDL_Rect projectedMovement = *physBody->world_coords;
-    projectedMovement.x += physBody->vel_x;
-    projectedMovement.y += physBody->vel_y;
+    PhysicsBody *pb = &kv_pair.second;
 
 
-    bool collision_x(false), collision_y(false);
-    for (auto &kv_pair_colcheck : m_physicsList) {
-      PhysicsBody *pb_col = &kv_pair_colcheck.second;
-      // TODO(nmg): 'walk off a cliff' transition to airborne
-      SDL_Rect result;
-      if (SDL_IntersectRect(&projectedMovement, pb_col->world_coords,
-                            &result) &&
-          physBody->id != pb_col->id) {
-        // collision
-	//physBody->id
+	//if entity can move, update/validate movements
+	if (!pb->suspend_x && !pb->suspend_y) {
+		bool willFall; //if a grounded entity becomes airborne; decided by boxcast
+		pb->airborne ? willFall = false : willFall = true;
 
-        if (physBody->airborne && physBody->vel_y > 0 && result.h > 0) {
-          // landing
-          physBody->airborne = false;
-          collision_y = true;
-          physBody->vel_y = 0;
-          physBody->world_coords->y =
-              pb_col->world_coords->y - physBody->world_coords->h;
-        }
-        if (physBody->airborne && physBody->vel_y < 0 && result.h > 0) {
-          // head bumped something above
-          collision_y = true;
-          physBody->vel_y = 0;
-          physBody->world_coords->y = pb_col->world_coords->y +
-                                      pb_col->world_coords->h;
-        }
-        if (result.w > 0) {
-          collision_x = true;
-        }
-        break;
-      }
-    }
+		if (pb->airborne && pb->vel_y < 13) {
+			// gravity with terminal velocity check
+			pb->vel_y += 0.7F;
+		}
 
-    if (!collision_x) {
-      physBody->world_coords->x += physBody->vel_x;
-    }
-    if (!collision_y) {
-      physBody->world_coords->y += physBody->vel_y;
-    }
+		//TODO: int coordinates in SDL_Rect are causing rounding errors
+		//player moves faster to the left than to the right by 1 unit
+		SDL_Rect projectedMovement = *pb->world_coords;
+		projectedMovement.x += pb->vel_x;
+		projectedMovement.y += pb->vel_y;
 
-    // hack -- reset velx to 0 for next update
-    // do this in lua ideally
-    physBody->vel_x = 0;
+		
+		bool collision_x(false), collision_y(false);
+		for (auto &kv_pair_colcheck : m_physicsList) {
+			PhysicsBody *pb_col = &kv_pair_colcheck.second;
+			
+			SDL_Rect result;
+			if (SDL_IntersectRect(&projectedMovement, pb_col->world_coords,
+				&result) &&
+				pb->id != pb_col->id) {
+				// collision
+				//physBody->id
+
+				if (pb->airborne && pb->vel_y > 0 && result.h > 0) {
+					// landing
+					pb->airborne = false;
+					collision_y = true;
+					pb->vel_y = 0;
+					pb->world_coords->y =
+						pb_col->world_coords->y - pb->world_coords->h;
+				}
+				if (pb->airborne && pb->vel_y < 0 && result.h > 0) {
+					// head bumped something above
+					collision_y = true;
+					pb->vel_y = 0;
+					pb->world_coords->y = pb_col->world_coords->y +
+						pb_col->world_coords->h;
+				}
+				if (result.w > 0) {
+					collision_x = true;
+				}
+				
+				break;
+			}
+
+			//walk off a platform check
+			if (!pb->airborne && willFall) {
+				//create a thin 'groundcheck' rect directly below the sprite
+				SDL_Rect boxcast;
+				boxcast.x = pb->world_coords->x;
+				boxcast.y = pb->world_coords->y + pb->world_coords->h + 1;
+				boxcast.h = 2;
+				boxcast.w = pb->world_coords->w; //scale to less than 100%?
+				SDL_Rect result;
+				if (SDL_IntersectRect(pb_col->world_coords, &boxcast, &result)) {
+					willFall = false;
+				}
+			}
+		}
+
+		if (!collision_x) {
+			pb->world_coords->x += pb->vel_x;
+		}
+		if (!collision_y) {
+			pb->world_coords->y += pb->vel_y;
+		}
+		if (willFall) {
+			pb->airborne = true;
+		}
+
+		// hack -- reset velx to 0 for next update
+		// do this in lua ideally
+		pb->vel_x = 0;
+	}   
   }
 }

@@ -47,18 +47,18 @@ int main(int argc, char *args[]) {
   // entity composition
   Sprite *player_sprite = m_renderer.add_sprite("player");
   PhysicsBody *player_pb =
-      m_physicsEngine.create_physBody("player", player_sprite);
+      m_physicsEngine.create_physBody("player", player_sprite, false);
   Player player(tx_cache, lua, "res/scripts/player.lua", "player",
                 player_sprite, player_pb);
 
   Sprite *floor_sprite = m_renderer.add_sprite("floor");
   PhysicsBody *floor_pb =
-      m_physicsEngine.create_physBody("floor", floor_sprite);
+      m_physicsEngine.create_physBody("floor", floor_sprite, true);
   Player floor(tx_cache, lua, "res/scripts/floor.lua", "floor", floor_sprite,
                floor_pb);
 
   Sprite *box_sprite = m_renderer.add_sprite("box");
-  PhysicsBody *box_pb = m_physicsEngine.create_physBody("box", box_sprite);
+  PhysicsBody *box_pb = m_physicsEngine.create_physBody("box", box_sprite, false);
   Player box(tx_cache, lua, "res/scripts/box.lua", "box", box_sprite, box_pb);
 
   Timer timer = Timer();
