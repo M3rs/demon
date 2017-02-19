@@ -59,7 +59,7 @@ void PhysicsEngine::update() {
 				//physBody->id
 
 				if (pb->airborne && pb->vel_y > 0 && result.h > 0) {
-					// landing
+					// landing event
 					pb->airborne = false;
 					collision_y = true;
 					pb->vel_y = 0;
@@ -76,8 +76,6 @@ void PhysicsEngine::update() {
 				if (result.w > 0) {
 					collision_x = true;
 				}
-				
-				break;
 			}
 
 			//walk off a platform check
