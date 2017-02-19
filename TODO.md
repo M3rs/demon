@@ -5,7 +5,8 @@
 - [SDL2 API by Category](https://wiki.libsdl.org/APIByCategory)
 
 ## Short Term
-- Correct player to move as before (probably needs lots of cleanup)
+- Store world coords in a Rect struct of our own with float coords
+- Move additional physics checks (suspend_x and suspend_y) into lua if they seem useful long-term, so we can have access to change them!
 - Player transform polish -- add sounds, change oneshot w/ parameter to starting a mixer snapshot when transformed
 - perform draw calls in proper order (right now map is not really ordered)
 
@@ -13,12 +14,10 @@
 - TBD (they're there, let's not kid ourselves)
 
 ## Collision / Jumping
-- re-implement
-- Clean up
+- Handle landing event
 
 ## Other "game object" / "mobs"
-- Publicly accessable: ways to check for collision with another Rect (possibly via sprite)
-- unique identifer?
+- Event to other interested systems when two physicsbodies collide?
 
 ## basic terrain
 - different-ish from mob, but not really?
