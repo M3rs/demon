@@ -69,7 +69,8 @@ void Renderer::update() {
 
   for (auto& draw : m_drawlist) {
     auto& sprite = draw.second;
-    SDL_RenderCopy(renderer, sprite.texture, &sprite.texture_coords, &sprite.world_coords);
+    SDL_RenderCopy(renderer, sprite.texture, &sprite.texture_coords, 
+		sprite.world_coords.to_sdl_rect());
   }
 
    SDL_RenderPresent(renderer);

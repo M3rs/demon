@@ -17,6 +17,16 @@ SDL_Rect getRectFromTable(sol::table t) {
 
   return r;
 }
+
+Rect getFloatRectFromTable(sol::table t) {
+	Rect r;
+	r.x = t["x"];
+	r.y = t["y"];
+	r.w = t["w"];
+	r.h = t["h"];
+
+	return r;
+}
 }
 
 Player::Player(Textures &textures, sol::state &lua, std::string luafile,
@@ -32,7 +42,7 @@ Player::Player(Textures &textures, sol::state &lua, std::string luafile,
   m_sprite->texture = text_t->get();
   //m_sprite->texture = textures.get(sprite_t["texture_file"]);
   m_sprite->texture_coords = getRectFromTable(sprite_t["texture_coords"]);
-  m_sprite->world_coords = getRectFromTable(sprite_t["world_coords"]);
+  m_sprite->world_coords = getFloatRectFromTable(sprite_t["world_coords"]);
 
   m_physicsBody = physBody;
 
@@ -75,3 +85,5 @@ const std::string& Player::getId()
 {
   return table;
 }
+
+

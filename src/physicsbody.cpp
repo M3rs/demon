@@ -1,4 +1,3 @@
-#include "sprite.hpp"
 #include <physicsbody.hpp>
 
 PhysicsBody::PhysicsBody()

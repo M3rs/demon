@@ -14,7 +14,7 @@ player = {
    },   
 
    --physics  
-   speed = 150,
+   speed = 30,
     velx = 0,
     vely = 0,
      

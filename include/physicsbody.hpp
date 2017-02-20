@@ -6,8 +6,7 @@
 #include <map>
 #include <string>
 #include <vector>
-
-struct Sprite;
+#include "sprite.hpp"
 
 class PhysicsBody {
 public:
@@ -20,7 +19,7 @@ public:
 
   float vel_x;
   float vel_y;
-  SDL_Rect *world_coords;
+  Rect *world_coords;
 
   bool airborne;
   bool suspend_x; //prevent movement on an axis

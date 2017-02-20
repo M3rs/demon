@@ -42,7 +42,7 @@ void PhysicsEngine::update() {
 
 		//TODO: int coordinates in SDL_Rect are causing rounding errors
 		//player moves faster to the left than to the right by 1 unit
-		SDL_Rect projectedMovement = *pb->world_coords;
+		SDL_Rect projectedMovement = *pb->world_coords->to_sdl_rect();
 		projectedMovement.x += pb->vel_x;
 		projectedMovement.y += pb->vel_y;
 
@@ -52,8 +52,8 @@ void PhysicsEngine::update() {
 			PhysicsBody *pb_col = &kv_pair_colcheck.second;
 			
 			SDL_Rect result;
-			if (SDL_IntersectRect(&projectedMovement, pb_col->world_coords,
-				&result) &&
+			if (SDL_IntersectRect(&projectedMovement, 
+				pb_col->world_coords->to_sdl_rect(), &result) &&
 				pb->id != pb_col->id) {
 				// collision
 				//physBody->id
@@ -87,7 +87,8 @@ void PhysicsEngine::update() {
 				boxcast.h = 2;
 				boxcast.w = pb->world_coords->w; //scale to less than 100%?
 				SDL_Rect result;
-				if (SDL_IntersectRect(pb_col->world_coords, &boxcast, &result)) {
+				if (SDL_IntersectRect(pb_col->world_coords->to_sdl_rect(), 
+					&boxcast, &result)) {
 					willFall = false;
 				}
 			}

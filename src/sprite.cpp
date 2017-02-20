@@ -23,3 +23,11 @@ void Sprite::change_texture(Texture_T* newtexture)
 {
   texture = newtexture->get();
 }
+
+SDL_Rect* Rect::to_sdl_rect() {
+	sdl_rect.x = std::round(x);
+	sdl_rect.y = std::round(y);
+	sdl_rect.w = std::round(w);
+	sdl_rect.h = std::round(h);
+	return &sdl_rect;
+}
