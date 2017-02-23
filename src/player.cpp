@@ -46,6 +46,7 @@ Player::Player(Textures &textures, sol::state &lua, std::string luafile,
 
   m_physicsBody = physBody;
 
+  std::cout << table << std::endl;
   m_lua[table]["body"] = physBody;
   m_lua[table]["mysprite"] = m_sprite;
 }
@@ -53,6 +54,8 @@ Player::Player(Textures &textures, sol::state &lua, std::string luafile,
 void Player::setup_lua() {
   m_lua.script_file(script_file);
 
+  std::cout << table << std::endl;
+  
   sol::table player_t = m_lua[table];
   
   supdate = player_t["update"];
@@ -65,6 +68,10 @@ void Player::handle_event(SDL_Keycode keycode) {
     // reload player script
     std::cout << "Reloading player.lua\n";
     setup_lua();
+    // need to reassign references
+    m_lua[table]["body"] = m_physicsBody;
+    m_lua[table]["mysprite"] = m_sprite;
+  
     break;
   default:
     break;
